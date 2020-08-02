@@ -6,7 +6,7 @@
 		<script src="/assets/javascripts/jatos.js"></script>
 		<!-- pull in the jsPsych libraries we need -->
 		<script src="jspsych-6.1.0/jspsych.js"></script>
-		<script src="jspsych-6.1.0/plugins/jspsych-image-audio-response.js"></script>
+		<script src="jspsych-6.1.0/plugins/jspsych-image-keyboard-response.js"></script>
 		<script src="jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js"></script>
 		<!-- pull in the actual experiment -->
 		<script src="exp.js"></script>
@@ -28,7 +28,7 @@
 		jatos.onLoad(function() {
 			jsPsych.init({
 				timeline: timeline,
-				preload_images: stroop_image_paths,
+				preload_images: [stroop_image_paths, falsefont_image_paths],
 				on_finish: function() {
 					var resultJson = jsPsych.data.get().json();
 					jatos.submitResultData(resultJson, jatos.startNextComponent);
