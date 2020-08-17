@@ -3,7 +3,7 @@
 		/* set up */
 		////////////
 
-		var instructions_on = 1; // you can turn off (0) the first few blocks of instructions if you want to test
+		var instructions_on = 1; // you can turn off (0) the first block of instructions if you want to test
 
 		var num_blocks = 2; // will repeat each block of stimuli this number of times (blocked together)
 		var num_tr_blocks = 1; // number of training blocks (same principle as num_blocks)
@@ -44,8 +44,17 @@
 		var option_num = Math.floor(Math.random() * resp_options.length);
 		var resp_keys = resp_options[option_num].resp_keys;
 		var condition = resp_options[option_num].condition;
+		var resp_coding = {
+			small: resp_keys[0],
+			medium: resp_keys[1],
+			large: resp_keys[2],
+			red: resp_keys[0],
+			blue: resp_keys[1],
+			green: resp_keys[2]
+		}
 		console.log("option number: ",option_num);
-		console.log("condition: ",condition)
+		console.log("condition: ",condition);
+		console.log("coding: ",resp_coding);
 		// we'll code red/small as resp_keys[0], blue/medium as resp_keys[1], and green/large as resp_keys[2]
 
 		jsPsych.data.addProperties({
@@ -138,9 +147,6 @@
 					stimulus: jsPsych.timelineVariable('stim_path'),
 					stimulus_width: jsPsych.timelineVariable('stim_size'),
 					choices: resp_keys,
-					on_finish: function(data){
-						data.correct = data.key_press == jsPsych.pluginAPI.convertKeyCharacterToKeyCode(data.correct_response);
-					},
 					data: jsPsych.timelineVariable('add_data')
 				}
 			],
@@ -200,9 +206,6 @@
 					stimulus: jsPsych.timelineVariable('stim_path'),
 					stimulus_width: jsPsych.timelineVariable('stim_size'),
 					choices: resp_keys,
-					on_finish: function(data){
-						data.correct = data.key_press == jsPsych.pluginAPI.convertKeyCharacterToKeyCode(data.correct_response);
-					},
 					data: jsPsych.timelineVariable('add_data')
 				}
 			],
@@ -265,6 +268,7 @@
 		/* procedure creation */
 		////////////////////////
 		
+		trial_type = 'colour';
 		var stroop_colour_proc = [
 			colour_instructions,
 			pre_training,
