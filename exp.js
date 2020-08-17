@@ -40,14 +40,13 @@
 				condition: ['dsa',6],
 			}
 		];
-		console.log("resp opts: ",resp_options);
 
 		var option_num = Math.floor(Math.random() * resp_options.length);
 		var resp_keys = resp_options[option_num].resp_keys;
 		var condition = resp_options[option_num].condition;
 		console.log("option number: ",option_num);
 		console.log("condition: ",condition)
-		// we'll code red as resp_keys[0], blue as resp_keys[1], and green as resp_keys[2]
+		// we'll code red/small as resp_keys[0], blue/medium as resp_keys[1], and green/large as resp_keys[2]
 
 		jsPsych.data.addProperties({
 			condition: condition
@@ -61,12 +60,9 @@
 
 		var instructions = {
 			type: 'html-keyboard-response',
-			stimulus:'<p>In this experiment you will be asked to either report</p><br>'+
-				'<p>the colour of a word, or the size of a word. In both cases,</p><br>'+
-				'<p>you must ignore what the word says (i.e. try not to read the word).</p><br>'+
-				'<br>Your response keys are:</p>'+
-				'<p>red: '+JSON.stringify(resp_keys[0])+', blue: '+JSON.stringify(resp_keys[1])+', green: '+JSON.stringify(resp_keys[2])+
-				"<br><br><p>press any key to continue</p>"
+			stimulus:'<p>In this experiment you will be using buttons to respond to the images on the screen.<br>There are four different tasks.<br>At the start of each task, you will be provided with instructions.<br>This will be followed by a short training. During training you will be provided with feedback after each trial informing you of the correct answer so you can check.<br>After training, you will no longer receive feedback.<br>The buttons you will be using for this experiment are: </p>'+
+				'<p>'+JSON.stringify(resp_keys[0])+', '+JSON.stringify(resp_keys[1])+', '+JSON.stringify(resp_keys[2])+'</p>'+
+				'<br><p>press any key to continue</p>'
 		}
 
 		/* push those to the timeline, if instructions are on */
@@ -81,13 +77,17 @@
 		/* report size instructions */
 		var size_instructions = {
 			type: 'html-keyboard-response',
-			stimulus: '<p>In this task, you must report the <em>size</em> of the image.<br>It will be either small, medium, or large.<br><br>Press any key to continue.</p>',
+			stimulus: '<p>In this task, you must report the <em>size</em> of the image.<br>It will be either</p><br>'+
+				'<p>small: '+JSON.stringify(resp_keys[0])+', medium: '+JSON.stringify(resp_keys[1])+', large: '+JSON.stringify(resp_keys[2])+'</p><br>'+
+				'<br><p>Press any key to continue.</p>',
 		}
 
 		/* report colour instructions */
 		var colour_instructions = {
 			type: 'html-keyboard-response',
-			stimulus: '<p>In this task, you must report the <em>colour</em> of the image.<br>It will be either red, blue, or green.<br><br>Press any key to continue.</p>',
+			stimulus: '<p>In this task, you must report the <em>colour</em> of the image.<br>It will be either</p><br>'+
+				'<p>red: '+JSON.stringify(resp_keys[0])+', blue: '+JSON.stringify(resp_keys[1])+', green: '+JSON.stringify(resp_keys[2])+'</p><br>'+
+				'<br><p>Press any key to continue.</p>',
 		}
 
 		/* pre item instructions */
