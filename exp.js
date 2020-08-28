@@ -39,7 +39,7 @@
 			type: 'html-keyboard-response',
 			stimulus:'<p>The buttons for this experiment will always be: </p>'+
 				'<p>'+JSON.stringify(resp_keys[0])+', '+JSON.stringify(resp_keys[1])+', '+JSON.stringify(resp_keys[2])+'</p>'+
-				'<br><p>Press any key to continue</p>'
+				'Feel free to use either hand, but you must use this hand throughout the experiment<br><p>Press any key to continue</p>'
 		}
 
 
@@ -120,6 +120,8 @@
 					stimulus: jsPsych.timelineVariable('stim_path'),
 					stimulus_width: jsPsych.timelineVariable('stim_size'),
 					choices: resp_keys,
+					trial_duration: 2000,
+					response_ends_trial: false,
 					data: jsPsych.timelineVariable('add_data')
 				}
 			],
@@ -179,6 +181,8 @@
 					stimulus: jsPsych.timelineVariable('stim_path'),
 					stimulus_width: jsPsych.timelineVariable('stim_size'),
 					choices: resp_keys,
+					trial_duration: 2000,
+					response_ends_trial: false,
 					data: jsPsych.timelineVariable('add_data')
 				}
 			],
