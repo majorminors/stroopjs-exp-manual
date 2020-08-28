@@ -69,7 +69,7 @@
 
 		var instructions = {
 			type: 'html-keyboard-response',
-			stimulus:'<p>In this experiment you will be using buttons to respond to the images on the screen.<br>There are four different tasks.<br>At the start of each task, you will be provided with instructions.<br>This will be followed by a short training. During training you will be provided with feedback after each trial informing you of the correct answer so you can check.<br>After training, you will no longer receive feedback.<br>The buttons you will be using for this experiment are: </p>'+
+			stimulus:"<p>In this experiment you'll see images on the screen and respond by pressing buttons<br>There are four different task in this experiment.<br>Each one is slightly different, although all are similar.<br>At the start of each task, you'll get some instructions.<br>Then there will be a short 'training' period during which we'll tell you the correct answer after each trial.<br>Then you'll start the block properly and you won't get and feedback until the next block.<br><br>When ready, press any key continue.</p>"
 				'<p>'+JSON.stringify(resp_keys[0])+', '+JSON.stringify(resp_keys[1])+', '+JSON.stringify(resp_keys[2])+'</p>'+
 				'<br><p>press any key to continue</p>'
 		}
@@ -86,7 +86,7 @@
 		/* report size instructions */
 		var size_instructions = {
 			type: 'html-keyboard-response',
-			stimulus: '<p>In this task, you must report the <em>size</em> of the image.<br>It will be either</p><br>'+
+			stimulus: '<p>In this version of the task, you must report the <em>size</em> of the image.<br>It will be either</p><br>'+
 				'<p>small: '+JSON.stringify(resp_keys[0])+', medium: '+JSON.stringify(resp_keys[1])+', large: '+JSON.stringify(resp_keys[2])+'</p><br>'+
 				'<br><p>Press any key to continue.</p>',
 		}
@@ -94,7 +94,7 @@
 		/* report colour instructions */
 		var colour_instructions = {
 			type: 'html-keyboard-response',
-			stimulus: '<p>In this task, you must report the <em>colour</em> of the image.<br>It will be either</p><br>'+
+			stimulus: '<p>In this version of the task, you must report the <em>colour</em> of the image.<br>It will be either</p><br>'+
 				'<p>red: '+JSON.stringify(resp_keys[0])+', blue: '+JSON.stringify(resp_keys[1])+', green: '+JSON.stringify(resp_keys[2])+'</p><br>'+
 				'<br><p>Press any key to continue.</p>',
 		}
@@ -107,6 +107,12 @@
 		var pre_test = {
 			type: 'html-keyboard-response',
 			stimulus: 'Now we begin the test. You will no longer recieve feedback.<br><br> Press any key to continue.</p>',
+		}
+
+		/* finished task instructions */
+		var finished_task = {
+			type: 'html-keyboard-response',
+			stimulus: "You've finished this version of the task. Well done.<br><br>Press any key to continue.</p>",
 		}
 
 		//////////////////
@@ -273,7 +279,8 @@
 			colour_instructions,
 			pre_training,
 			{...stroop_task, timeline: [stroop_task.timeline[0], stroop_task.timeline[1], colour_feedback], repetitions: num_tr_blocks},
-			pre_test, {...stroop_task, repetitions: num_blocks}
+			pre_test, {...stroop_task, repetitions: num_blocks},
+			finished_task
 		]; // precede stroop with colour instructions
 		
 		var stroop_size_proc = [
@@ -281,7 +288,8 @@
 			pre_training,
 			{...stroop_task, timeline: [stroop_task.timeline[0], stroop_task.timeline[1], size_feedback], repetitions: num_tr_blocks},
 			pre_test,
-			{...stroop_task, repetitions: num_blocks}
+			{...stroop_task, repetitions: num_blocks},
+			finished_task
 		]; // precede stroop with size instructions
 
 		var falsefont_colour_proc = [
@@ -289,7 +297,8 @@
 			pre_training,
 			{...false_font_task, timeline: [false_font_task.timeline[0], false_font_task.timeline[1], colour_feedback], repetitions: num_tr_blocks},
 			pre_test,
-			{...false_font_task, repetitions: num_blocks}
+			{...false_font_task, repetitions: num_blocks},
+			finished_task
 		]; // precede false fonts with colour instructions
 
 		var falsefont_size_proc = [
@@ -297,7 +306,8 @@
 			pre_training,
 			{...false_font_task, timeline: [false_font_task.timeline[0], false_font_task.timeline[1], size_feedback], repetitions: num_tr_blocks},
 			pre_test,
-			{...false_font_task, repetitions: num_blocks}
+			{...false_font_task, repetitions: num_blocks},
+			finished_task
 		]; // precede false fonts with colour instructions
 		
 		var unshuffled_procedure = [stroop_colour_proc, stroop_size_proc, falsefont_colour_proc, falsefont_size_proc]; // place all into a single array
