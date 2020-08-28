@@ -91,19 +91,19 @@
 			type: 'html-keyboard-response',
 			stimulus: function(){
 				var size_string = jsPsych.data.get().last(1).values()[0].size;
-				return '<p> correct answer: '+JSON.stringify(size_string)+'</p>';
+				return '<p> correct answer: '+JSON.stringify(size_string)+' which is button: '+JSON.stringify(resp_coding[size_string])+'</p>';
 			},
 			choices: jsPsych.NO_KEYS,
-			trial_duration: 500,
+			trial_duration: 600,
 		}
 		colour_feedback = {
 			type: 'html-keyboard-response',
 			stimulus: function(){
 				var colour_string = jsPsych.data.get().last(1).values()[0].colour;
-				return '<p> correct answer: '+JSON.stringify(colour_string)+'</p>';
+				return '<p> correct answer: '+JSON.stringify(colour_string)+' which is button: '+JSON.stringify(resp_coding[colour_string])+'</p>';
 			},
 			choices: jsPsych.NO_KEYS,
-			trial_duration: 500,
+			trial_duration: 600,
 		}
 
 		/* stroop task */
