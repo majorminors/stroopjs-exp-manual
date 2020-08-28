@@ -247,12 +247,12 @@
 		
 		trial_type = 'colour';
 		var stroop_colour_proc = [
-			colour_instructions,
-			pre_training,
-			{...stroop_task, timeline: [stroop_task.timeline[0], stroop_task.timeline[1], colour_feedback], repetitions: num_tr_blocks},
+			colour_instructions, // precede stroop with colour instructions
+			pre_training, // pre task instructions
+			{...stroop_task, timeline: [stroop_task.timeline[0], stroop_task.timeline[1], colour_feedback], repetitions: num_tr_blocks}, // append feedback to the stroop and add repetitions
 			pre_test, {...stroop_task, repetitions: num_blocks},
 			finished_task
-		]; // precede stroop with colour instructions
+		]; 
 		
 		var stroop_size_proc = [
 			size_instructions,
@@ -261,7 +261,7 @@
 			pre_test,
 			{...stroop_task, repetitions: num_blocks},
 			finished_task
-		]; // precede stroop with size instructions
+		];
 
 		var falsefont_colour_proc = [
 			colour_instructions,
@@ -270,7 +270,7 @@
 			pre_test,
 			{...false_font_task, repetitions: num_blocks},
 			finished_task
-		]; // precede false fonts with colour instructions
+		];
 
 		var falsefont_size_proc = [
 			size_instructions,
@@ -279,7 +279,7 @@
 			pre_test,
 			{...false_font_task, repetitions: num_blocks},
 			finished_task
-		]; // precede false fonts with colour instructions
+		];
 		
 		var unshuffled_procedure = [stroop_colour_proc, stroop_size_proc, falsefont_colour_proc, falsefont_size_proc]; // place all into a single array
 
@@ -306,9 +306,3 @@
 		for (i = 0; i < shuffled_procedure.length; i++) { // loop through the shuffled and flattened procedure array, and push each jsPsych trial block to the timeline
 			timeline.push(shuffled_procedure[i]);
 		}
-
-		/* individual blocks for testing */ 
-		//timeline.push(size_instructions);
-		//timeline.push(colour_instructions);
-		//timeline.push(stroop_task);
-		//timeline.push(false_font_task);
