@@ -9,8 +9,8 @@
 		var num_tr_blocks = 1; // number of training blocks (same principle as num_blocks)
 	
 		var stim_height = { // stimulus height in pixels - height is auto (i.e. will maintain aspect ratio)
-			small: 50,
-			medium: 200,
+			small: 100,
+			medium: 250,
 			large: 500
 		} 
 
@@ -118,7 +118,7 @@
 				{
 					type: 'image-keyboard-response',
 					stimulus: jsPsych.timelineVariable('stim_path'),
-					stimulus_width: jsPsych.timelineVariable('stim_size'),
+					stimulus_height: jsPsych.timelineVariable('stim_size'),
 					choices: resp_keys,
 					trial_duration: 2000,
 					response_ends_trial: false,
@@ -179,7 +179,7 @@
 				{
 					type: 'image-keyboard-response',
 					stimulus: jsPsych.timelineVariable('stim_path'),
-					stimulus_width: jsPsych.timelineVariable('stim_size'),
+					stimulus_height: jsPsych.timelineVariable('stim_size'),
 					choices: resp_keys,
 					trial_duration: 2000,
 					response_ends_trial: false,
