@@ -14,36 +14,7 @@
 			large: 500
 		} 
 
-		var resp_options = [
-			{
-				resp_keys: ['a','s','d'],
-				condition: ['asd',1],
-			},
-			{
-				resp_keys: ['a','d','s'],
-				condition: ['ads',2],
-			},	
-			{
-				resp_keys: ['s','d','a'],
-				condition: ['sda',3],
-			},	
-			{
-				resp_keys: ['s','a','d'],
-				condition: ['sad',4],
-			},
-			{
-				resp_keys: ['d','a','s'],
-				condition: ['das',5],
-			},
-			{
-				resp_keys: ['d','s','a'],
-				condition: ['dsa',6],
-			}
-		];
-
-		var option_num = Math.floor(Math.random() * resp_options.length);
-		var resp_keys = resp_options[option_num].resp_keys;
-		var condition = resp_options[option_num].condition;
+		var resp_keys = resp_keys = ['1','2','3'];
 		var resp_coding = {
 			small: resp_keys[0],
 			medium: resp_keys[1],
@@ -52,36 +23,32 @@
 			blue: resp_keys[1],
 			green: resp_keys[2]
 		}
-		console.log("option number: ",option_num);
-		console.log("condition: ",condition);
-		console.log("coding: ",resp_coding);
-		// we'll code red/small as resp_keys[0], blue/medium as resp_keys[1], and green/large as resp_keys[2]
-
-		jsPsych.data.addProperties({
-			condition: condition
-		});
 
 		var timeline = []; // initialise timeline
 		
-		//////////////////
-		/* instructions */
-		//////////////////	
-
-		var instructions = {
-			type: 'html-keyboard-response',
-			stimulus:"<p>In this experiment you'll see images on the screen and respond by pressing buttons<br>There are four different task in this experiment.<br>Each one is slightly different, although all are similar.<br>At the start of each task, you'll get some instructions.<br>Then there will be a short 'training' period during which we'll tell you the correct answer after each trial.<br>Then you'll start the block properly and you won't get and feedback until the next block.<br><br>When ready, press any key continue.</p>"
-				'<p>'+JSON.stringify(resp_keys[0])+', '+JSON.stringify(resp_keys[1])+', '+JSON.stringify(resp_keys[2])+'</p>'+
-				'<br><p>press any key to continue</p>'
-		}
-
-		/* push those to the timeline, if instructions are on */
-		if (instructions_on == 1) {
-			timeline.push(instructions);
-		}
-
 		//////////////////////
 		/* instruction bits */
 		//////////////////////
+
+		var instructions_onstart = {
+			type: 'html-keyboard-response',
+			stimulus:"<p>In this experiment you'll see images on the screen and respond by pressing buttons<br>There are four different task in this experiment.<br>Each one is slightly different, although all are similar.<br>At the start of each task, you'll get some instructions.<br>Then there will be a short 'training' period during which we'll tell you the correct answer after each trial.<br>Then you'll start the block properly and you won't get and feedback until the next block.<br><br>When ready, press any key continue.<br><br>Press any key to continue</p>"
+		}
+
+		var button_instructions = {
+			type: 'html-keyboard-response',
+			stimulus:'<p>The buttons for this experiment will always be: </p>'+
+				'<p>'+JSON.stringify(resp_keys[0])+', '+JSON.stringify(resp_keys[1])+', '+JSON.stringify(resp_keys[2])+'</p>'+
+				'<br><p>Press any key to continue</p>'
+		}
+
+
+		/* push those to the timeline, if instructions are on */
+		if (instructions_on == 1) {
+			timeline.push(instructions_onstart);
+			timeline.push(button_instructions);
+		}
+
 
 		/* report size instructions */
 		var size_instructions = {
