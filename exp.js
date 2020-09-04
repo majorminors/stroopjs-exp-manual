@@ -71,7 +71,7 @@
         
             let printed_words = [...colours]
             // in this case, the print is the same as the colours (or based off the colours in the case of the false fonts)
-            // with different printed words, just replace 'doFalseFont' with prints and delete the doFalseFont line in the function
+            // with different printed words, just replace 'doFalseFont' with prints and replace the references to `final_print`
         
             colours.forEach(colour => {
                 // console.log('Ink colour: ' + colour)
@@ -128,7 +128,7 @@
 		/* report size instructions */
 		var size_instructions = {
 			type: 'html-keyboard-response',
-			stimulus: '<p>In this version of the task, you must report the <em>size</em> of the image.<br>It will be either</p><br>'+
+			stimulus: '<p>In this version of the task, you must report the <em>size</em> of the image by pressing a button.<br>The size of these symbols differ in <strong>height</strong>. They will be either</p><br>'+
 				'<p>small: '+JSON.stringify(resp_keys[0])+', medium: '+JSON.stringify(resp_keys[1])+', large: '+JSON.stringify(resp_keys[2])+'</p><br>'+
 				'<p>Please watch the centre of the screen between images!</p><br>'+
 				'<br><p>Press any key to continue.</p>',
@@ -137,7 +137,7 @@
 		/* report colour instructions */
 		var colour_instructions = {
 			type: 'html-keyboard-response',
-			stimulus: '<p>In this version of the task, you must report the <em>colour</em> of the image.<br>It will be either</p><br>'+
+			stimulus: '<p>In this version of the task, you must report the <em>colour</em> of the image by pressing a button.<br>It will be either</p><br>'+
 				'<p>red: '+JSON.stringify(resp_keys[0])+', blue: '+JSON.stringify(resp_keys[1])+', green: '+JSON.stringify(resp_keys[2])+'</p><br>'+
 				'<p>Please watch the centre of the screen between images!</p><br>'+
 				'<br><p>Press any key to continue.</p>',
@@ -171,7 +171,7 @@
 				return '<p> correct answer: <span style="font-size: 40px;">'+JSON.stringify(size_string)+'</span><br><br>which is button: <span style="font-size: 40px;">'+JSON.stringify(resp_coding[size_string])+'</span></p>';
 			},
 			choices: jsPsych.NO_KEYS,
-			trial_duration: 700,
+			trial_duration: 600,
 		}
 		colour_feedback = {
 			type: 'html-keyboard-response',
@@ -180,7 +180,7 @@
 				return '<p> correct answer: <span style="font-size: 40px;">'+JSON.stringify(colour_string)+'</span><br><br>which is button: <span style="font-size: 40px;">'+JSON.stringify(resp_coding[colour_string])+'</span></p>';
 			},
 			choices: jsPsych.NO_KEYS,
-			trial_duration: 700,
+			trial_duration: 600,
 		}
 
 		/* stroop task */
@@ -251,7 +251,6 @@
 		/* procedure creation */
 		////////////////////////
 
-		trial_type = 'colour';
 		var stroop_colour_proc = [
 			colour_instructions, // precede stroop with colour instructions
 			pre_training, // pre task instructions
@@ -259,17 +258,16 @@
 			{...stroop_task, timeline: [stroop_task.timeline[0], stroop_task.timeline[1], colour_feedback], repetitions: num_tr_blocks}, // append feedback to the stroop and add repetitions
 			pre_test,
 			// same again - spread the block object and add to the keys inside
-			{...stroop_task, repetitions: num_blocks},
-
+			{...stroop_task, timeline: [stroop_task.timeline[0], stroop_task.timeline[3]], repetitions: num_blocks},
 			finished_task
-		]; 
+		];
 		
 		var stroop_size_proc = [
 			size_instructions,
 			pre_training,
-			{...stroop_task, timeline: [stroop_task.timeline[0], stroop_task.timeline[1], size_feedback], repetitions: num_tr_blocks},
+			{...stroop_task, timeline: [stroop_task.timeline[0], stroop_task.timeline[2], size_feedback], repetitions: num_tr_blocks},
 			pre_test,
-			{...stroop_task, repetitions: num_blocks},
+			{...stroop_task, timeline: [stroop_task.timeline[0], stroop_task.timeline[3]], repetitions: num_blocks},
 			finished_task
 		];
 
@@ -278,16 +276,16 @@
 			pre_training,
 			{...false_font_task, timeline: [false_font_task.timeline[0], false_font_task.timeline[1], colour_feedback], repetitions: num_tr_blocks},
 			pre_test,
-			{...false_font_task, repetitions: num_blocks},
+			{...false_font_task, timeline: [false_font_task.timeline[0], false_font_task.timeline[3]], repetitions: num_blocks},
 			finished_task
 		];
 
 		var falsefont_size_proc = [
 			size_instructions,
 			pre_training,
-			{...false_font_task, timeline: [false_font_task.timeline[0], false_font_task.timeline[1], size_feedback], repetitions: num_tr_blocks},
+			{...false_font_task, timeline: [false_font_task.timeline[0], false_font_task.timeline[2], size_feedback], repetitions: num_tr_blocks},
 			pre_test,
-			{...false_font_task, repetitions: num_blocks},
+			{...false_font_task, timeline: [false_font_task.timeline[0], false_font_task.timeline[3]], repetitions: num_blocks},
 			finished_task
 		];
 		
