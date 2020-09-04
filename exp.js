@@ -7,13 +7,10 @@
 
 		var num_blocks = 2; // will repeat each block of stimuli this number of times (blocked together)
 		var num_tr_blocks = 1; // number of training blocks (same principle as num_blocks)
-	
-		var window_height = window.innerHeight; // get the window height in pixels	
-		var stim_height = { // stimulus height in pixels - height is auto (i.e. will maintain aspect ratio)
-			small: window_height*0.1,
-			medium: window_height*0.3,
-			large: window_height*0.5
-		} 
+
+		///////////////////
+		/* response keys */
+		///////////////////
 
 		var resp_keys = resp_keys = ['1','2','3'];
 		var resp_coding = {
@@ -24,6 +21,84 @@
 			blue: resp_keys[1],
 			green: resp_keys[2]
 		}
+
+        //////////////////////
+        /* stimuli creation */
+        //////////////////////
+
+        var colours = ["red", "blue", "green"];
+
+		var window_height = window.innerHeight; // get the window height in pixels	
+        var stim_height = { // stimulus height in pixels - width is auto (i.e. will maintain aspect ratio)
+			small: window_height*0.1,
+			medium: window_height*0.3,
+			large: window_height*0.5
+		}
+
+        // little stimulus factory we'll use later when constructing the trials
+        // produces a complete stimulus object that can be indexed into by a trial variablec as a timeline variable.
+        function stimulusFactory(colour, print, size){
+            var stim_path = `stimuli/${print}-${colour}.svg`;
+            var stim_size = stim_height[size];
+            var congruency;
+            if (print.includes(colour)) {
+                congruency = 'congruent';
+            } else {
+                congruency = 'incongruent';
+            }
+            return {
+                stim_path,
+                stim_size,
+                add_data: {
+                    colour,
+                    print,
+                    size,
+                    congruency,
+                }
+            }
+        }
+
+        // create a little factory to put together a stimulus list for the timeline variable
+        // will produce a list of calls to the stimulusFactory
+        // don't have to use this--can just call stimulus factory directly however many times like:
+        //          timeline_variables: [
+        //              stimulusFactory("green", "red", "small"),
+        //              stimulusFactory("green", "blue", "small"),
+        //              ...
+        //          ]
+        function stimListFactory(colours, doFalseFont, sizes) {
+            let stimulus_list = [];
+        
+            let printed_words = [...colours]
+            // in this case, the print is the same as the colours (or based off the colours in the case of the false fonts)
+            // with different printed words, just replace 'doFalseFont' with prints and delete the doFalseFont line in the function
+        
+            colours.forEach(colour => {
+                // console.log('Ink colour: ' + colour)
+        
+                sizes.forEach(size => {
+                    // console.log('Size: ' + size)
+        
+                    printed_words.forEach(print => {
+                        // console.log('Print Colour: ' + print)
+        
+                        let final_print = doFalseFont ? ('ff' + print) : print
+                        // if doFalseFont is true, append 'ff' to print, else just pass print
+        
+                        if(colour === print) {
+                            // produce calls to create two of any congruent stimuli
+                            stimulus_list.push(stimulusFactory(colour, final_print, size))
+                            stimulus_list.push(stimulusFactory(colour, final_print, size))
+                        } else {
+                            // produce calls to create one of each incongruent stimulus type
+                            stimulus_list.push(stimulusFactory(colour, final_print, size))
+                        }
+                    });
+                });
+            });
+        
+            return stimulus_list;
+        } 
 
 		var timeline = []; // initialise timeline
 		
@@ -42,7 +117,6 @@
 				'<p>'+JSON.stringify(resp_keys[0])+', '+JSON.stringify(resp_keys[1])+', '+JSON.stringify(resp_keys[2])+'</p>'+
 				'Feel free to use either hand, but you must use this hand throughout the experiment<br><p>Press any key to continue</p>'
 		}
-
 
 		/* push those to the timeline, if instructions are on */
 		if (instructions_on == 1) {
@@ -116,7 +190,8 @@
 					type: 'html-keyboard-response',
 					stimulus: '<div style="font-size:60px;">+</div>',
 					choices: jsPsych.NO_KEYS,
-					trial_duration: 300
+					trial_duration: 300,
+                    data: jsPsych.timelineVariable('add_data') // pull this in so we can access it in a subsequent trial
 				},
 				{
 					type: 'image-keyboard-response',
@@ -128,47 +203,11 @@
 					data: jsPsych.timelineVariable('add_data')
 				}
 			],
-			timeline_variables: [
-				{stim_path: 'stimuli/red-red.svg', stim_size: stim_height.small, add_data: {stimulus: 'red-red-small', size: 'small', colour: 'red', congruency: 'congruent'}},
-				{stim_path: 'stimuli/red-red.svg', stim_size: stim_height.small, add_data: {stimulus: 'red-red-small', size: 'small', colour: 'red', congruency: 'congruent'}},
-				{stim_path: 'stimuli/red-blue.svg', stim_size: stim_height.small, add_data: {stimulus: 'red-blue-small', size: 'small', colour: 'blue', congruency: 'incongruent'}},
-				{stim_path: 'stimuli/red-green.svg', stim_size: stim_height.small, add_data: {stimulus: 'red-green-small', size: 'small', colour: 'green', congruency: 'incongruent'}},
-				{stim_path: 'stimuli/blue-blue.svg', stim_size: stim_height.small, add_data: {stimulus: 'blue-blue-small', size: 'small', colour: 'blue', congruency: 'congruent'}},
-				{stim_path: 'stimuli/blue-blue.svg', stim_size: stim_height.small, add_data: {stimulus: 'blue-blue-small', size: 'small', colour: 'blue', congruency: 'congruent'}},
-				{stim_path: 'stimuli/blue-red.svg', stim_size: stim_height.small, add_data: {stimulus: 'blue-red-small', size: 'small', colour: 'red', congruency: 'incongruent'}},
-				{stim_path: 'stimuli/blue-green.svg', stim_size: stim_height.small, add_data: {stimulus: 'blue-green-small', size: 'small', colour: 'green', congruency: 'incongruent'}},
-				{stim_path: 'stimuli/green-green.svg', stim_size: stim_height.small, add_data: {stimulus: 'green-green-small', size: 'small', colour: 'green', congruency: 'congruent'}},
-				{stim_path: 'stimuli/green-green.svg', stim_size: stim_height.small, add_data: {stimulus: 'green-green-small', size: 'small', colour: 'green', congruency: 'congruent'}},
-				{stim_path: 'stimuli/green-red.svg', stim_size: stim_height.small, add_data: {stimulus: 'green-red-small', size: 'small', colour: 'red', congruency: 'incongruent'}},
-				{stim_path: 'stimuli/green-blue.svg', stim_size: stim_height.small, add_data: {stimulus: 'green-blue-small', size: 'small', colour: 'blue', congruency: 'incongruent'}},
-				{stim_path: 'stimuli/red-red.svg', stim_size: stim_height.medium, add_data: {stimulus: 'red-red-medium', size: 'medium', colour: 'red', congruency: 'congruent'}},
-				{stim_path: 'stimuli/red-red.svg', stim_size: stim_height.medium, add_data: {stimulus: 'red-red-medium', size: 'medium', colour: 'red', congruency: 'congruent'}},
-				{stim_path: 'stimuli/red-blue.svg', stim_size: stim_height.medium, add_data: {stimulus: 'red-blue-medium', size: 'medium', colour: 'blue', congruency: 'incongruent'}},
-				{stim_path: 'stimuli/red-green.svg', stim_size: stim_height.medium, add_data: {stimulus: 'red-green-medium', size: 'medium', colour: 'green', congruency: 'incongruent'}},
-				{stim_path: 'stimuli/blue-blue.svg', stim_size: stim_height.medium, add_data: {stimulus: 'blue-blue-medium', size: 'medium', colour: 'blue', congruency: 'congruent'}},
-				{stim_path: 'stimuli/blue-blue.svg', stim_size: stim_height.medium, add_data: {stimulus: 'blue-blue-medium', size: 'medium', colour: 'blue', congruency: 'congruent'}},
-				{stim_path: 'stimuli/blue-red.svg', stim_size: stim_height.medium, add_data: {stimulus: 'blue-red-medium', size: 'medium', colour: 'red', congruency: 'incongruent'}},
-				{stim_path: 'stimuli/blue-green.svg', stim_size: stim_height.medium, add_data: {stimulus: 'blue-green-medium', size: 'medium', colour: 'green', congruency: 'incongruent'}},
-				{stim_path: 'stimuli/green-green.svg', stim_size: stim_height.medium, add_data: {stimulus: 'green-green-medium', size: 'medium', colour: 'green', congruency: 'congruent'}},
-				{stim_path: 'stimuli/green-green.svg', stim_size: stim_height.medium, add_data: {stimulus: 'green-green-medium', size: 'medium', colour: 'green', congruency: 'congruent'}},
-				{stim_path: 'stimuli/green-red.svg', stim_size: stim_height.medium, add_data: {stimulus: 'green-red-medium', size: 'medium', colour: 'red', congruency: 'incongruent'}},
-				{stim_path: 'stimuli/green-blue.svg', stim_size: stim_height.medium, add_data: {stimulus: 'green-blue-medium', size: 'medium', colour: 'blue', congruency: 'incongruent'}},
-				{stim_path: 'stimuli/red-red.svg', stim_size: stim_height.large, add_data: {stimulus: 'red-red-large', size: 'large', colour: 'red', congruency: 'congruent'}},
-				{stim_path: 'stimuli/red-red.svg', stim_size: stim_height.large, add_data: {stimulus: 'red-red-large', size: 'large', colour: 'red', congruency: 'congruent'}},
-				{stim_path: 'stimuli/red-blue.svg', stim_size: stim_height.large, add_data: {stimulus: 'red-blue-large', size: 'large', colour: 'blue', congruency: 'incongruent'}},
-				{stim_path: 'stimuli/red-green.svg', stim_size: stim_height.large, add_data: {stimulus: 'red-green-large', size: 'large', colour: 'green', congruency: 'incongruent'}},
-				{stim_path: 'stimuli/blue-blue.svg', stim_size: stim_height.large, add_data: {stimulus: 'blue-blue-large', size: 'large', colour: 'blue', congruency: 'congruent'}},
-				{stim_path: 'stimuli/blue-blue.svg', stim_size: stim_height.large, add_data: {stimulus: 'blue-blue-large', size: 'large', colour: 'blue', congruency: 'congruent'}},
-				{stim_path: 'stimuli/blue-red.svg', stim_size: stim_height.large, add_data: {stimulus: 'blue-red-large', size: 'large', colour: 'red', congruency: 'incongruent'}},
-				{stim_path: 'stimuli/blue-green.svg', stim_size: stim_height.large, add_data: {stimulus: 'blue-green-large', size: 'large', colour: 'green', congruency: 'incongruent'}},
-				{stim_path: 'stimuli/green-green.svg', stim_size: stim_height.large, add_data: {stimulus: 'green-green-large', size: 'large', colour: 'green', congruency: 'congruent'}},
-				{stim_path: 'stimuli/green-green.svg', stim_size: stim_height.large, add_data: {stimulus: 'green-green-large', size: 'large', colour: 'green', congruency: 'congruent'}},
-				{stim_path: 'stimuli/green-red.svg', stim_size: stim_height.large, add_data: {stimulus: 'green-red-large', size: 'large', colour: 'red', congruency: 'incongruent'}},
-				{stim_path: 'stimuli/green-blue.svg', stim_size: stim_height.large, add_data: {stimulus: 'green-blue-large', size: 'large', colour: 'blue', congruency: 'incongruent'}}, 
-			],
+            timeline_variables: stimListFactory(colours, false, Object.keys(stim_height)),
 			randomize_order: true,
 			// 'repetitions:' would go here, but we will assign this more dynamically later
 		}
+        console.log(stroop_task.timeline_variables);
 
 		/* false font task */
 		var false_font_task = {
@@ -189,52 +228,16 @@
 					data: jsPsych.timelineVariable('add_data')
 				}
 			],
-			timeline_variables: [
-				{stim_path: 'stimuli/ffred-red.svg', stim_size: stim_height.small, add_data: {stimulus: 'ffred-red-small', size: 'small', colour: 'red', congruency: 'congruent'}},
-				{stim_path: 'stimuli/ffred-red.svg', stim_size: stim_height.small, add_data: {stimulus: 'ffred-red-small', size: 'small', colour: 'red', congruency: 'congruent'}},
-				{stim_path: 'stimuli/ffred-blue.svg', stim_size: stim_height.small, add_data: {stimulus: 'ffred-blue-small', size: 'small', colour: 'blue', congruency: 'incongruent'}},
-				{stim_path: 'stimuli/ffred-green.svg', stim_size: stim_height.small, add_data: {stimulus: 'ffred-green-small', size: 'small', colour: 'green', congruency: 'incongruent'}},
-				{stim_path: 'stimuli/ffblue-blue.svg', stim_size: stim_height.small, add_data: {stimulus: 'ffblue-blue-small', size: 'small', colour: 'blue', congruency: 'congruent'}},
-				{stim_path: 'stimuli/ffblue-blue.svg', stim_size: stim_height.small, add_data: {stimulus: 'ffblue-blue-small', size: 'small', colour: 'blue', congruency: 'congruent'}},
-				{stim_path: 'stimuli/ffblue-red.svg', stim_size: stim_height.small, add_data: {stimulus: 'ffblue-red-small', size: 'small', colour: 'red', congruency: 'incongruent'}},
-				{stim_path: 'stimuli/ffblue-green.svg', stim_size: stim_height.small, add_data: {stimulus: 'ffblue-green-small', size: 'small', colour: 'green', congruency: 'incongruent'}},
-				{stim_path: 'stimuli/ffgreen-green.svg', stim_size: stim_height.small, add_data: {stimulus: 'ffgreen-green-small', size: 'small', colour: 'green', congruency: 'congruent'}},
-				{stim_path: 'stimuli/ffgreen-green.svg', stim_size: stim_height.small, add_data: {stimulus: 'ffgreen-green-small', size: 'small', colour: 'green', congruency: 'congruent'}},
-				{stim_path: 'stimuli/ffgreen-red.svg', stim_size: stim_height.small, add_data: {stimulus: 'ffgreen-red-small', size: 'small', colour: 'red', congruency: 'incongruent'}},
-				{stim_path: 'stimuli/ffgreen-blue.svg', stim_size: stim_height.small, add_data: {stimulus: 'ffgreen-blue-small', size: 'small', colour: 'blue', congruency: 'incongruent'}},
-				{stim_path: 'stimuli/ffred-red.svg', stim_size: stim_height.medium, add_data: {stimulus: 'ffred-red-medium', size: 'medium', colour: 'red', congruency: 'congruent'}},
-				{stim_path: 'stimuli/ffred-red.svg', stim_size: stim_height.medium, add_data: {stimulus: 'ffred-red-medium', size: 'medium', colour: 'red', congruency: 'congruent'}},
-				{stim_path: 'stimuli/ffred-blue.svg', stim_size: stim_height.medium, add_data: {stimulus: 'ffred-blue-medium', size: 'medium', colour: 'blue', congruency: 'incongruent'}},
-				{stim_path: 'stimuli/ffred-green.svg', stim_size: stim_height.medium, add_data: {stimulus: 'ffred-green-medium', size: 'medium', colour: 'green', congruency: 'incongruent'}},
-				{stim_path: 'stimuli/ffblue-blue.svg', stim_size: stim_height.medium, add_data: {stimulus: 'ffblue-blue-medium', size: 'medium', colour: 'blue', congruency: 'congruent'}},
-				{stim_path: 'stimuli/ffblue-blue.svg', stim_size: stim_height.medium, add_data: {stimulus: 'ffblue-blue-medium', size: 'medium', colour: 'blue', congruency: 'congruent'}},
-				{stim_path: 'stimuli/ffblue-red.svg', stim_size: stim_height.medium, add_data: {stimulus: 'ffblue-red-medium', size: 'medium', colour: 'red', congruency: 'incongruent'}},
-				{stim_path: 'stimuli/ffblue-green.svg', stim_size: stim_height.medium, add_data: {stimulus: 'ffblue-green-medium', size: 'medium', colour: 'green', congruency: 'incongruent'}},
-				{stim_path: 'stimuli/ffgreen-green.svg', stim_size: stim_height.medium, add_data: {stimulus: 'ffgreen-green-medium', size: 'medium', colour: 'green', congruency: 'congruent'}},
-				{stim_path: 'stimuli/ffgreen-green.svg', stim_size: stim_height.medium, add_data: {stimulus: 'ffgreen-green-medium', size: 'medium', colour: 'green', congruency: 'congruent'}},
-				{stim_path: 'stimuli/ffgreen-red.svg', stim_size: stim_height.medium, add_data: {stimulus: 'ffgreen-red-medium', size: 'medium', colour: 'red', congruency: 'incongruent'}},
-				{stim_path: 'stimuli/ffgreen-blue.svg', stim_size: stim_height.medium, add_data: {stimulus: 'ffgreen-blue-medium', size: 'medium', colour: 'blue', congruency: 'incongruent'}},
-				{stim_path: 'stimuli/ffred-red.svg', stim_size: stim_height.large, add_data: {stimulus: 'ffred-red-large', size: 'large', colour: 'red', congruency: 'congruent'}},
-				{stim_path: 'stimuli/ffred-red.svg', stim_size: stim_height.large, add_data: {stimulus: 'ffred-red-large', size: 'large', colour: 'red', congruency: 'congruent'}},
-				{stim_path: 'stimuli/ffred-blue.svg', stim_size: stim_height.large, add_data: {stimulus: 'ffred-blue-large', size: 'large', colour: 'blue', congruency: 'incongruent'}},
-				{stim_path: 'stimuli/ffred-green.svg', stim_size: stim_height.large, add_data: {stimulus: 'ffred-green-large', size: 'large', colour: 'green', congruency: 'incongruent'}},
-				{stim_path: 'stimuli/ffblue-blue.svg', stim_size: stim_height.large, add_data: {stimulus: 'ffblue-blue-large', size: 'large', colour: 'blue', congruency: 'congruent'}},
-				{stim_path: 'stimuli/ffblue-blue.svg', stim_size: stim_height.large, add_data: {stimulus: 'ffblue-blue-large', size: 'large', colour: 'blue', congruency: 'congruent'}},
-				{stim_path: 'stimuli/ffblue-red.svg', stim_size: stim_height.large, add_data: {stimulus: 'ffblue-red-large', size: 'large', colour: 'red', congruency: 'incongruent'}},
-				{stim_path: 'stimuli/ffblue-green.svg', stim_size: stim_height.large, add_data: {stimulus: 'ffblue-green-large', size: 'large', colour: 'green', congruency: 'incongruent'}},
-				{stim_path: 'stimuli/ffgreen-green.svg', stim_size: stim_height.large, add_data: {stimulus: 'ffgreen-green-large', size: 'large', colour: 'green', congruency: 'congruent'}},
-				{stim_path: 'stimuli/ffgreen-green.svg', stim_size: stim_height.large, add_data: {stimulus: 'ffgreen-green-large', size: 'large', colour: 'green', congruency: 'congruent'}},
-				{stim_path: 'stimuli/ffgreen-red.svg', stim_size: stim_height.large, add_data: {stimulus: 'ffgreen-red-large', size: 'large', colour: 'red', congruency: 'incongruent'}},
-				{stim_path: 'stimuli/ffgreen-blue.svg', stim_size: stim_height.large, add_data: {stimulus: 'ffgreen-blue-large', size: 'large', colour: 'blue', congruency: 'incongruent'}},
-			],
+            timeline_variables: stimListFactory(colours, true, Object.keys(stim_height)),
 			randomize_order: true,
 			// 'repetitions:' would go here, but we will assign this more dynamically later
 		}
+        console.log(false_font_task.timeline_variables);
 
 		//////////////////////////////////////////////////////
 		/* grab all the image paths, so we can preload them */
 		//////////////////////////////////////////////////////
-  
+
 		var stroop_image_paths = []; // init the variable
 		for (i = 0; i < stroop_task.timeline_variables.length; i++) {
 			stroop_image_paths[i] = stroop_task.timeline_variables[i].stim_path;
@@ -247,13 +250,17 @@
 		////////////////////////
 		/* procedure creation */
 		////////////////////////
-		
+
 		trial_type = 'colour';
 		var stroop_colour_proc = [
 			colour_instructions, // precede stroop with colour instructions
 			pre_training, // pre task instructions
+			// now we spread (shallow copy) the block object, and add to the keys inside - we need to be careful here, because it will only shallow copy: editing too deep will permanently alter the block object
 			{...stroop_task, timeline: [stroop_task.timeline[0], stroop_task.timeline[1], colour_feedback], repetitions: num_tr_blocks}, // append feedback to the stroop and add repetitions
-			pre_test, {...stroop_task, repetitions: num_blocks},
+			pre_test,
+			// same again - spread the block object and add to the keys inside
+			{...stroop_task, repetitions: num_blocks},
+
 			finished_task
 		]; 
 		
