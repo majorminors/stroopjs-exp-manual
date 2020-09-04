@@ -193,7 +193,33 @@
 					trial_duration: 300,
                     data: jsPsych.timelineVariable('add_data') // pull this in so we can access it in a subsequent trial
 				},
-				{
+				{ // training block, colour: will report colour mappings on stimulus screen -- stroop_task.timeline[1]
+					type: 'image-keyboard-response',
+					stimulus: jsPsych.timelineVariable('stim_path'),
+                    additional_stimulus: function(){
+                        var colour_string = jsPsych.data.get().last(1).values()[0].colour;
+                        return '<div style="position: absolute; top: 0px; right: 0px; margin-top: 20px; margin-right: 20px"><p> correct answer: <span style="font-size: 40px;">'+JSON.stringify(colour_string)+'</span><br><br>which is button: <span style="font-size: 40px;">'+JSON.stringify(resp_coding[colour_string])+'</span></p></div>';
+                    },
+					stimulus_height: jsPsych.timelineVariable('stim_size'),
+					choices: resp_keys,
+					trial_duration: 2000,
+					response_ends_trial: false,
+					data: jsPsych.timelineVariable('add_data')
+				},
+				{ // training block, size: will report size mappings on stimulus screen -- stroop_task.timeline[2]
+					type: 'image-keyboard-response',
+					stimulus: jsPsych.timelineVariable('stim_path'),
+                    additional_stimulus: function(){
+                        var size_string = jsPsych.data.get().last(1).values()[0].size;
+                        return '<div style="position: absolute; top: 0px; right: 0px; margin-top: 20px; margin-right: 20px"><p> correct answer: <span style="font-size: 40px;">'+JSON.stringify(size_string)+'</span><br><br>which is button: <span style="font-size: 40px;">'+JSON.stringify(resp_coding[size_string])+'</span></p></div>';
+                    },
+					stimulus_height: jsPsych.timelineVariable('stim_size'),
+					choices: resp_keys,
+					trial_duration: 2000,
+					response_ends_trial: false,
+					data: jsPsych.timelineVariable('add_data')
+				},
+				{ // testing block: will not report mappings -- stroop_task.timeline[3]
 					type: 'image-keyboard-response',
 					stimulus: jsPsych.timelineVariable('stim_path'),
 					stimulus_height: jsPsych.timelineVariable('stim_size'),
@@ -218,7 +244,33 @@
 					choices: jsPsych.NO_KEYS,
 					trial_duration: 300
 				},
-				{
+				{ // training block, colour: will report colour mappings on stimulus screen -- stroop_task.timeline[1]
+					type: 'image-keyboard-response',
+                    stimulus: jsPsych.timelineVariable('stim_path'),
+                    additional_stimulus: function(){
+                        var colour_string = jsPsych.data.get().last(1).values()[0].colour;
+                        return '<div style="position: absolute; top: 0px; right: 0px; margin-top: 20px; margin-right: 20px"><p> correct answer: <span style="font-size: 40px;">'+JSON.stringify(colour_string)+'</span><br><br>which is button: <span style="font-size: 40px;">'+JSON.stringify(resp_coding[colour_string])+'</span></p></div>';
+                    },
+					stimulus_height: jsPsych.timelineVariable('stim_size'),
+					choices: resp_keys,
+					trial_duration: 2000,
+					response_ends_trial: false,
+					data: jsPsych.timelineVariable('add_data')
+				},
+				{ // training block, size: will report size mappings on stimulus screen -- stroop_task.timeline[2]
+					type: 'image-keyboard-response',
+					stimulus: jsPsych.timelineVariable('stim_path'),
+                    additional_stimulus: function(){
+                        var size_string = jsPsych.data.get().last(1).values()[0].size;
+                        return '<div style="position: absolute; top: 0px; right: 0px; margin-top: 20px; margin-right: 20px"><p> correct answer: <span style="font-size: 40px;">'+JSON.stringify(size_string)+'</span><br><br>which is button: <span style="font-size: 40px;">'+JSON.stringify(resp_coding[size_string])+'</span></p></div>';
+                    },
+					stimulus_height: jsPsych.timelineVariable('stim_size'),
+					choices: resp_keys,
+					trial_duration: 2000,
+					response_ends_trial: false,
+					data: jsPsych.timelineVariable('add_data')
+				},
+				{ // testing block: will not report mappings -- stroop_task.timeline[3]
 					type: 'image-keyboard-response',
 					stimulus: jsPsych.timelineVariable('stim_path'),
 					stimulus_height: jsPsych.timelineVariable('stim_size'),

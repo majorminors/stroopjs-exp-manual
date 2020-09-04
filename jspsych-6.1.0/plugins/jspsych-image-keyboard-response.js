@@ -25,6 +25,13 @@ jsPsych.plugins["image-keyboard-response"] = (function() {
         default: undefined,
         description: 'The image to be displayed'
       },
+      additional_stimulus: {
+        type: jsPsych.plugins.parameterType.HTML_STRING,
+        pretty_name: 'Additional stimulus HTML',
+        default: null,
+        description: 'Additional HTML to be displayed on stimulus screen '+
+            '(e.g. button mappings)'
+      },
       stimulus_height: {
         type: jsPsych.plugins.parameterType.INT,
         pretty_name: 'Image height',
@@ -94,6 +101,11 @@ jsPsych.plugins["image-keyboard-response"] = (function() {
       }
     }
     html +='"></img>';
+
+    // add additional stimulus HTML, if any
+    if (trial.additional_stimulus !== null){
+      html += trial.additional_stimulus;
+    }
 
     // add prompt
     if (trial.prompt !== null){
