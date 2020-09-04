@@ -193,7 +193,7 @@
 					trial_duration: 300,
                     data: jsPsych.timelineVariable('add_data') // pull this in so we can access it in a subsequent trial
 				},
-				{ // training block, colour: will report colour mappings on stimulus screen -- stroop_task.timeline[1]
+				{ // training block, colour: shows correct response for colour -- stroop_task.timeline[1]
 					type: 'image-keyboard-response',
 					stimulus: jsPsych.timelineVariable('stim_path'),
                     additional_stimulus: function(){
@@ -206,7 +206,7 @@
 					response_ends_trial: false,
 					data: jsPsych.timelineVariable('add_data')
 				},
-				{ // training block, size: will report size mappings on stimulus screen -- stroop_task.timeline[2]
+				{ // training block, size: shows correct response for size -- stroop_task.timeline[2]
 					type: 'image-keyboard-response',
 					stimulus: jsPsych.timelineVariable('stim_path'),
                     additional_stimulus: function(){
@@ -219,7 +219,7 @@
 					response_ends_trial: false,
 					data: jsPsych.timelineVariable('add_data')
 				},
-				{ // testing block: will not report mappings -- stroop_task.timeline[3]
+				{ // testing block: does not show correct response - stroop_task.timeline[3]
 					type: 'image-keyboard-response',
 					stimulus: jsPsych.timelineVariable('stim_path'),
 					stimulus_height: jsPsych.timelineVariable('stim_size'),
@@ -244,7 +244,7 @@
 					choices: jsPsych.NO_KEYS,
 					trial_duration: 300
 				},
-				{ // training block, colour: will report colour mappings on stimulus screen -- stroop_task.timeline[1]
+				{ // training block, colour: shows correct response for colour -- false_font_task.timeline[1]
 					type: 'image-keyboard-response',
                     stimulus: jsPsych.timelineVariable('stim_path'),
                     additional_stimulus: function(){
@@ -257,7 +257,7 @@
 					response_ends_trial: false,
 					data: jsPsych.timelineVariable('add_data')
 				},
-				{ // training block, size: will report size mappings on stimulus screen -- stroop_task.timeline[2]
+				{ // training block, size: shows correct response for size -- false_font_task.timeline[2]
 					type: 'image-keyboard-response',
 					stimulus: jsPsych.timelineVariable('stim_path'),
                     additional_stimulus: function(){
@@ -270,7 +270,7 @@
 					response_ends_trial: false,
 					data: jsPsych.timelineVariable('add_data')
 				},
-				{ // testing block: will not report mappings -- stroop_task.timeline[3]
+				{ // testing block: does not show correct response -- false_font_task.timeline[3]
 					type: 'image-keyboard-response',
 					stimulus: jsPsych.timelineVariable('stim_path'),
 					stimulus_height: jsPsych.timelineVariable('stim_size'),
