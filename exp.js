@@ -16,7 +16,7 @@
         /* response keys */
         ///////////////////
 
-        var resp_keys = resp_keys = ['1','2','3'];
+        var resp_keys = ['1','2','3'];
         var resp_coding = {
             small: resp_keys[0],
             medium: resp_keys[1],
