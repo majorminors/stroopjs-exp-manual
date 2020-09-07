@@ -8,6 +8,10 @@
         var num_blocks = 2; // will repeat each block of stimuli this number of times (blocked together)
         var num_tr_blocks = 1; // number of training blocks (same principle as num_blocks)
 
+        var participant_id = jsPsych.randomization.randomID(15); // generate a string for participant ID
+        jsPsych.data.addProperties({ // push that to the data object
+          participant: participant_id
+        });
         ///////////////////
         /* response keys */
         ///////////////////
@@ -21,7 +25,9 @@
             blue: resp_keys[1],
             green: resp_keys[2]
         }
-
+        jsPsych.data.addProperties({ // push that to the data object
+          response_mapping: resp_coding
+        });
         //////////////////////
         /* stimuli creation */
         //////////////////////
@@ -191,7 +197,10 @@
                     stimulus: '<div style="font-size:60px;">+</div>',
                     choices: jsPsych.NO_KEYS,
                     trial_duration: 300,
-                    data: jsPsych.timelineVariable('add_data') // pull this in so we can access it in a subsequent trial
+                    data: {
+                        ...jsPsych.timelineVariable('add_data'), // pull this in so we can access it in a subsequent trial
+                        trial_type: "fixation",
+                    }
                 },
                 { // training block, colour: shows correct response for colour -- stroop_task.timeline[1]
                     type: 'image-keyboard-response',
@@ -204,7 +213,11 @@
                     choices: resp_keys,
                     trial_duration: 2000,
                     response_ends_trial: false,
-                    data: jsPsych.timelineVariable('add_data')
+                    data: {
+                        ...jsPsych.timelineVariable('add_data'),
+                        trial_type: "training",
+                        test_type: "colour"
+                    }
                 },
                 { // training block, size: shows correct response for size -- stroop_task.timeline[2]
                     type: 'image-keyboard-response',
@@ -217,7 +230,11 @@
                     choices: resp_keys,
                     trial_duration: 2000,
                     response_ends_trial: false,
-                    data: jsPsych.timelineVariable('add_data')
+                    data: {
+                        ...jsPsych.timelineVariable('add_data'),
+                        trial_type: "training",
+                        test_type: "size"
+                    }
                 },
                 { // testing block: does not show correct response - stroop_task.timeline[3]
                     type: 'image-keyboard-response',
@@ -226,7 +243,10 @@
                     choices: resp_keys,
                     trial_duration: 2000,
                     response_ends_trial: false,
-                    data: jsPsych.timelineVariable('add_data')
+                    data: {
+                        ...jsPsych.timelineVariable('add_data'),
+                        trial_type: "testing",
+                    }
                 }
             ],
             timeline_variables: stimListFactory(colours, false, Object.keys(stim_height)),
@@ -255,7 +275,11 @@
                     choices: resp_keys,
                     trial_duration: 2000,
                     response_ends_trial: false,
-                    data: jsPsych.timelineVariable('add_data')
+                    data: {
+                        ...jsPsych.timelineVariable('add_data'),
+                        trial_type: "training",
+                        test_type: "colour",
+                    }
                 },
                 { // training block, size: shows correct response for size -- false_font_task.timeline[2]
                     type: 'image-keyboard-response',
@@ -268,7 +292,11 @@
                     choices: resp_keys,
                     trial_duration: 2000,
                     response_ends_trial: false,
-                    data: jsPsych.timelineVariable('add_data')
+                    data: {
+                        ...jsPsych.timelineVariable('add_data'),
+                        trial_type: "training",
+                        test_type: "size"
+                    }
                 },
                 { // testing block: does not show correct response -- false_font_task.timeline[3]
                     type: 'image-keyboard-response',
@@ -277,7 +305,10 @@
                     choices: resp_keys,
                     trial_duration: 2000,
                     response_ends_trial: false,
-                    data: jsPsych.timelineVariable('add_data')
+                    data: {
+                        ...jsPsych.timelineVariable('add_data'),
+                        trial_type: "testing",
+                    }
                 }
             ],
             timeline_variables: stimListFactory(colours, true, Object.keys(stim_height)),
@@ -310,7 +341,7 @@
             {...stroop_task, timeline: [stroop_task.timeline[0], stroop_task.timeline[1], colour_feedback], repetitions: num_tr_blocks}, // append feedback to the stroop and add repetitions
             pre_test,
             // same again - spread the block object and add to the keys inside
-            {...stroop_task, timeline: [stroop_task.timeline[0], stroop_task.timeline[3]], repetitions: num_blocks},
+            {...stroop_task, timeline: [stroop_task.timeline[0], {...stroop_task.timeline[3], data: {...stroop_task.timeline[3].data, test_type: "colour"}}], repetitions: num_blocks},
             finished_task
         ];
         
@@ -319,7 +350,7 @@
             pre_training,
             {...stroop_task, timeline: [stroop_task.timeline[0], stroop_task.timeline[2], size_feedback], repetitions: num_tr_blocks},
             pre_test,
-            {...stroop_task, timeline: [stroop_task.timeline[0], stroop_task.timeline[3]], repetitions: num_blocks},
+            {...stroop_task, timeline: [stroop_task.timeline[0], {...stroop_task.timeline[3], data: {...stroop_task.timeline[3].data, test_type: "size"}}], repetitions: num_blocks},
             finished_task
         ];
 
@@ -328,7 +359,7 @@
             pre_training,
             {...false_font_task, timeline: [false_font_task.timeline[0], false_font_task.timeline[1], colour_feedback], repetitions: num_tr_blocks},
             pre_test,
-            {...false_font_task, timeline: [false_font_task.timeline[0], false_font_task.timeline[3]], repetitions: num_blocks},
+            {...false_font_task, timeline: [false_font_task.timeline[0], {...false_font_task.timeline[3], data: {...false_font_task.timeline[3].data, test_type: "colour"}}], repetitions: num_blocks},
             finished_task
         ];
 
@@ -337,7 +368,7 @@
             pre_training,
             {...false_font_task, timeline: [false_font_task.timeline[0], false_font_task.timeline[2], size_feedback], repetitions: num_tr_blocks},
             pre_test,
-            {...false_font_task, timeline: [false_font_task.timeline[0], false_font_task.timeline[3]], repetitions: num_blocks},
+            {...false_font_task, timeline: [false_font_task.timeline[0], {...false_font_task.timeline[3], data: {...false_font_task.timeline[3].data, test_type: "size"}}], repetitions: num_blocks},
             finished_task
         ];
         
@@ -361,8 +392,13 @@
             return array;
         }
 
-        var shuffled_procedure = shuffle(unshuffled_procedure).flat(); // shuffle the procedure, and flatten it into one layer
+        var shuffled_procedure = shuffle(unshuffled_procedure); // shuffle the procedure
+        var flattened_procedure = shuffled_procedure.flat(); // flatten it into one layer
         
         for (i = 0; i < shuffled_procedure.length; i++) { // loop through the shuffled and flattened procedure array, and push each jsPsych trial block to the timeline
-            timeline.push(shuffled_procedure[i]);
+            timeline.push(flattened_procedure[i]);
         }
+
+        jsPsych.data.addProperties({ // push the condition info to the data object so you can double check stuff
+          condition_info: shuffled_procedure
+        });
