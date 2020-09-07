@@ -262,7 +262,11 @@
                     type: 'html-keyboard-response',
                     stimulus: '<div style="font-size:60px;">+</div>',
                     choices: jsPsych.NO_KEYS,
-                    trial_duration: 300
+                    trial_duration: 300,
+                    data: {
+                        stim_data: jsPsych.timelineVariable('add_data'), // pull this in so we can access it in a subsequent trial
+                        exp_part: "fixation",
+                    }
                 },
                 { // training block, colour: shows correct response for colour -- false_font_task.timeline[1]
                     type: 'image-keyboard-response',
