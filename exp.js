@@ -173,7 +173,7 @@
         size_feedback = {
             type: 'html-keyboard-response',
             stimulus: function(){
-                var size_string = jsPsych.data.get().last(1).values()[0].size;
+                var size_string = jsPsych.data.get().last(1).values()[0].stim_data.size;
                 return '<p> correct answer: <span style="font-size: 40px;">'+JSON.stringify(size_string)+'</span><br><br>which is button: <span style="font-size: 40px;">'+JSON.stringify(resp_coding[size_string])+'</span></p>';
             },
             choices: jsPsych.NO_KEYS,
@@ -182,7 +182,7 @@
         colour_feedback = {
             type: 'html-keyboard-response',
             stimulus: function(){
-                var colour_string = jsPsych.data.get().last(1).values()[0].colour;
+                var colour_string = jsPsych.data.get().last(1).values()[0].stim_data.colour;
                 return '<p> correct answer: <span style="font-size: 40px;">'+JSON.stringify(colour_string)+'</span><br><br>which is button: <span style="font-size: 40px;">'+JSON.stringify(resp_coding[colour_string])+'</span></p>';
             },
             choices: jsPsych.NO_KEYS,
@@ -198,7 +198,7 @@
                     choices: jsPsych.NO_KEYS,
                     trial_duration: 300,
                     data: {
-                        ...jsPsych.timelineVariable('add_data'), // pull this in so we can access it in a subsequent trial
+                        stim_data: jsPsych.timelineVariable('add_data'), // pull this in so we can access it in a subsequent trial
                         exp_part: "fixation",
                     }
                 },
@@ -206,7 +206,7 @@
                     type: 'image-keyboard-response',
                     stimulus: jsPsych.timelineVariable('stim_path'),
                     additional_stimulus: function(){
-                        var colour_string = jsPsych.data.get().last(1).values()[0].colour;
+                        var colour_string = jsPsych.data.get().last(1).values()[0].stim_data.colour;
                         return '<div style="position: absolute; top: 0px; right: 0px; margin-top: 20px; margin-right: 20px"><p> correct answer: <span style="font-size: 40px;">'+JSON.stringify(colour_string)+'</span><br><br>which is button: <span style="font-size: 40px;">'+JSON.stringify(resp_coding[colour_string])+'</span></p></div>';
                     },
                     stimulus_height: jsPsych.timelineVariable('stim_size'),
@@ -214,7 +214,7 @@
                     trial_duration: 2000,
                     response_ends_trial: false,
                     data: {
-                        ...jsPsych.timelineVariable('add_data'),
+                        stim_data: jsPsych.timelineVariable('add_data'),
                         exp_part: "training",
                         test_type: "colour"
                     }
@@ -223,7 +223,7 @@
                     type: 'image-keyboard-response',
                     stimulus: jsPsych.timelineVariable('stim_path'),
                     additional_stimulus: function(){
-                        var size_string = jsPsych.data.get().last(1).values()[0].size;
+                        var size_string = jsPsych.data.get().last(1).values()[0].stim_data.size;
                         return '<div style="position: absolute; top: 0px; right: 0px; margin-top: 20px; margin-right: 20px"><p> correct answer: <span style="font-size: 40px;">'+JSON.stringify(size_string)+'</span><br><br>which is button: <span style="font-size: 40px;">'+JSON.stringify(resp_coding[size_string])+'</span></p></div>';
                     },
                     stimulus_height: jsPsych.timelineVariable('stim_size'),
@@ -231,7 +231,7 @@
                     trial_duration: 2000,
                     response_ends_trial: false,
                     data: {
-                        ...jsPsych.timelineVariable('add_data'),
+                        stim_data: jsPsych.timelineVariable('add_data'),
                         exp_part: "training",
                         test_type: "size"
                     }
@@ -244,7 +244,7 @@
                     trial_duration: 2000,
                     response_ends_trial: false,
                     data: {
-                        ...jsPsych.timelineVariable('add_data'),
+                        stim_data: jsPsych.timelineVariable('add_data'),
                         exp_part: "testing",
                     }
                 }
@@ -268,7 +268,7 @@
                     type: 'image-keyboard-response',
                     stimulus: jsPsych.timelineVariable('stim_path'),
                     additional_stimulus: function(){
-                        var colour_string = jsPsych.data.get().last(1).values()[0].colour;
+                        var colour_string = jsPsych.data.get().last(1).values()[0].stim_data.colour;
                         return '<div style="position: absolute; top: 0px; right: 0px; margin-top: 20px; margin-right: 20px"><p> correct answer: <span style="font-size: 40px;">'+JSON.stringify(colour_string)+'</span><br><br>which is button: <span style="font-size: 40px;">'+JSON.stringify(resp_coding[colour_string])+'</span></p></div>';
                     },
                     stimulus_height: jsPsych.timelineVariable('stim_size'),
@@ -276,7 +276,7 @@
                     trial_duration: 2000,
                     response_ends_trial: false,
                     data: {
-                        ...jsPsych.timelineVariable('add_data'),
+                        stim_data: jsPsych.timelineVariable('add_data'),
                         exp_part: "training",
                         test_type: "colour",
                     }
@@ -285,7 +285,7 @@
                     type: 'image-keyboard-response',
                     stimulus: jsPsych.timelineVariable('stim_path'),
                     additional_stimulus: function(){
-                        var size_string = jsPsych.data.get().last(1).values()[0].size;
+                        var size_string = jsPsych.data.get().last(1).values()[0].stim_data.size;
                         return '<div style="position: absolute; top: 0px; right: 0px; margin-top: 20px; margin-right: 20px"><p> correct answer: <span style="font-size: 40px;">'+JSON.stringify(size_string)+'</span><br><br>which is button: <span style="font-size: 40px;">'+JSON.stringify(resp_coding[size_string])+'</span></p></div>';
                     },
                     stimulus_height: jsPsych.timelineVariable('stim_size'),
@@ -293,7 +293,7 @@
                     trial_duration: 2000,
                     response_ends_trial: false,
                     data: {
-                        ...jsPsych.timelineVariable('add_data'),
+                        stim_data: jsPsych.timelineVariable('add_data'),
                         exp_part: "training",
                         test_type: "size"
                     }
@@ -306,7 +306,7 @@
                     trial_duration: 2000,
                     response_ends_trial: false,
                     data: {
-                        ...jsPsych.timelineVariable('add_data'),
+                        stim_data: jsPsych.timelineVariable('add_data'),
                         exp_part: "testing",
                     }
                 }
