@@ -402,7 +402,3 @@
         for (i = 0; i < flattened_procedure.length; i++) { // loop through the shuffled and flattened procedure array, and push each jsPsych trial block to the timeline
             timeline.push(flattened_procedure[i]);
         }
-
-        jsPsych.data.addProperties({ // push the condition info to the data object so you can double check stuff
-          condition_info: shuffled_procedure
-        });
