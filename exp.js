@@ -199,7 +199,7 @@
                     trial_duration: 300,
                     data: {
                         ...jsPsych.timelineVariable('add_data'), // pull this in so we can access it in a subsequent trial
-                        trial_type: "fixation",
+                        exp_part: "fixation",
                     }
                 },
                 { // training block, colour: shows correct response for colour -- stroop_task.timeline[1]
@@ -215,7 +215,7 @@
                     response_ends_trial: false,
                     data: {
                         ...jsPsych.timelineVariable('add_data'),
-                        trial_type: "training",
+                        exp_part: "training",
                         test_type: "colour"
                     }
                 },
@@ -232,7 +232,7 @@
                     response_ends_trial: false,
                     data: {
                         ...jsPsych.timelineVariable('add_data'),
-                        trial_type: "training",
+                        exp_part: "training",
                         test_type: "size"
                     }
                 },
@@ -245,7 +245,7 @@
                     response_ends_trial: false,
                     data: {
                         ...jsPsych.timelineVariable('add_data'),
-                        trial_type: "testing",
+                        exp_part: "testing",
                     }
                 }
             ],
@@ -277,7 +277,7 @@
                     response_ends_trial: false,
                     data: {
                         ...jsPsych.timelineVariable('add_data'),
-                        trial_type: "training",
+                        exp_part: "training",
                         test_type: "colour",
                     }
                 },
@@ -294,7 +294,7 @@
                     response_ends_trial: false,
                     data: {
                         ...jsPsych.timelineVariable('add_data'),
-                        trial_type: "training",
+                        exp_part: "training",
                         test_type: "size"
                     }
                 },
@@ -307,7 +307,7 @@
                     response_ends_trial: false,
                     data: {
                         ...jsPsych.timelineVariable('add_data'),
-                        trial_type: "testing",
+                        exp_part: "testing",
                     }
                 }
             ],
