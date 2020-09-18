@@ -46,6 +46,7 @@
         function stimulusFactory(colour, print, size){
             var stim_path = `stimuli/${print}-${colour}.svg`;
             var stim_size = stim_height[size];
+            var trn_stim = `stimuli/${colour}.svg`;
             var congruency;
             if (print.includes(colour)) {
                 congruency = 'congruent';
@@ -55,6 +56,7 @@
             return {
                 stim_path,
                 stim_size,
+                trn_stim,
                 add_data: {
                     colour,
                     print,
@@ -150,9 +152,13 @@
         }
 
         /* pre item instructions */
+        var pre_1d_training = {
+            type: 'html-keyboard-response',
+            stimulus: 'We will start with a block of training on an easy stimulus first. We will give you feedback each trial.<br><br> Press any key to continue.</p>',
+        }
         var pre_training = {
             type: 'html-keyboard-response',
-            stimulus: 'We will start with a block of training, and we will give you feedback each trial.<br><br> Press any key to continue.</p>',
+            stimulus: 'Now another block of training with a more complicated stimulus. We will give you feedback each trial.<br><br> Press any key to continue.</p>',
         }
         var pre_test = {
             type: 'html-keyboard-response',
@@ -202,41 +208,29 @@
                         exp_part: "fixation",
                     }
                 },
-                { // training block, colour: shows correct response for colour -- stroop_task.timeline[1]
+                { // size only training block
                     type: 'image-keyboard-response',
-                    stimulus: jsPsych.timelineVariable('stim_path'),
-                    additional_stimulus: function(){
-                        var colour_string = jsPsych.data.get().last(1).values()[0].stim_data.colour;
-                        return '<div style="position: absolute; top: 0px; right: 0px; margin-top: 20px; margin-right: 20px"><p> correct answer: <span style="font-size: 40px;">'+JSON.stringify(colour_string)+'</span><br><br>which is button: <span style="font-size: 40px;">'+JSON.stringify(resp_coding[colour_string])+'</span></p></div>';
-                    },
+                    stimulus: 'stimuli/line.svg',
                     stimulus_height: jsPsych.timelineVariable('stim_size'),
                     choices: resp_keys,
                     trial_duration: 2000,
                     response_ends_trial: false,
                     data: {
                         stim_data: jsPsych.timelineVariable('add_data'),
-                        exp_part: "training",
-                        test_type: "colour"
                     }
                 },
-                { // training block, size: shows correct response for size -- stroop_task.timeline[2]
+                { // colour only training block
                     type: 'image-keyboard-response',
-                    stimulus: jsPsych.timelineVariable('stim_path'),
-                    additional_stimulus: function(){
-                        var size_string = jsPsych.data.get().last(1).values()[0].stim_data.size;
-                        return '<div style="position: absolute; top: 0px; right: 0px; margin-top: 20px; margin-right: 20px"><p> correct answer: <span style="font-size: 40px;">'+JSON.stringify(size_string)+'</span><br><br>which is button: <span style="font-size: 40px;">'+JSON.stringify(resp_coding[size_string])+'</span></p></div>';
-                    },
-                    stimulus_height: jsPsych.timelineVariable('stim_size'),
+                    stimulus: jsPsych.timelineVariable('trn_stim'),
+                    stimulus_height: stim_height.medium,
                     choices: resp_keys,
                     trial_duration: 2000,
                     response_ends_trial: false,
                     data: {
                         stim_data: jsPsych.timelineVariable('add_data'),
-                        exp_part: "training",
-                        test_type: "size"
                     }
                 },
-                { // testing block: does not show correct response - stroop_task.timeline[3]
+                { // stimulus block
                     type: 'image-keyboard-response',
                     stimulus: jsPsych.timelineVariable('stim_path'),
                     stimulus_height: jsPsych.timelineVariable('stim_size'),
@@ -245,7 +239,6 @@
                     response_ends_trial: false,
                     data: {
                         stim_data: jsPsych.timelineVariable('add_data'),
-                        exp_part: "testing",
                     }
                 }
             ],
@@ -268,41 +261,29 @@
                         exp_part: "fixation",
                     }
                 },
-                { // training block, colour: shows correct response for colour -- false_font_task.timeline[1]
+                { // size only training block
                     type: 'image-keyboard-response',
-                    stimulus: jsPsych.timelineVariable('stim_path'),
-                    additional_stimulus: function(){
-                        var colour_string = jsPsych.data.get().last(1).values()[0].stim_data.colour;
-                        return '<div style="position: absolute; top: 0px; right: 0px; margin-top: 20px; margin-right: 20px"><p> correct answer: <span style="font-size: 40px;">'+JSON.stringify(colour_string)+'</span><br><br>which is button: <span style="font-size: 40px;">'+JSON.stringify(resp_coding[colour_string])+'</span></p></div>';
-                    },
+                    stimulus: 'stimuli/line.svg',
                     stimulus_height: jsPsych.timelineVariable('stim_size'),
                     choices: resp_keys,
                     trial_duration: 2000,
                     response_ends_trial: false,
                     data: {
                         stim_data: jsPsych.timelineVariable('add_data'),
-                        exp_part: "training",
-                        test_type: "colour",
                     }
                 },
-                { // training block, size: shows correct response for size -- false_font_task.timeline[2]
+                { // colour only training block
                     type: 'image-keyboard-response',
-                    stimulus: jsPsych.timelineVariable('stim_path'),
-                    additional_stimulus: function(){
-                        var size_string = jsPsych.data.get().last(1).values()[0].stim_data.size;
-                        return '<div style="position: absolute; top: 0px; right: 0px; margin-top: 20px; margin-right: 20px"><p> correct answer: <span style="font-size: 40px;">'+JSON.stringify(size_string)+'</span><br><br>which is button: <span style="font-size: 40px;">'+JSON.stringify(resp_coding[size_string])+'</span></p></div>';
-                    },
-                    stimulus_height: jsPsych.timelineVariable('stim_size'),
+                    stimulus: jsPsych.timelineVariable('trn_stim'),
+                    stimulus_height: stim_height.medium,
                     choices: resp_keys,
                     trial_duration: 2000,
                     response_ends_trial: false,
                     data: {
                         stim_data: jsPsych.timelineVariable('add_data'),
-                        exp_part: "training",
-                        test_type: "size"
                     }
                 },
-                { // testing block: does not show correct response -- false_font_task.timeline[3]
+                { // stimulus block
                     type: 'image-keyboard-response',
                     stimulus: jsPsych.timelineVariable('stim_path'),
                     stimulus_height: jsPsych.timelineVariable('stim_size'),
@@ -311,7 +292,6 @@
                     response_ends_trial: false,
                     data: {
                         stim_data: jsPsych.timelineVariable('add_data'),
-                        exp_part: "testing",
                     }
                 }
             ],
@@ -340,39 +320,48 @@
 
         var stroop_colour_proc = [
             colour_instructions, // precede stroop with colour instructions
-            pre_training, // pre task instructions
+            pre_1d_training,
             // now we spread (shallow copy) the block object, and add to the keys inside - we need to be careful here, because it will only shallow copy: editing too deep will permanently alter the block object
-            {...stroop_task, timeline: [stroop_task.timeline[0], stroop_task.timeline[1], colour_feedback], repetitions: num_tr_blocks}, // append feedback to the stroop and add repetitions
+            {...stroop_task, timeline: [stroop_task.timeline[0], {...stroop_task.timeline[2], data: {...stroop_task.timeline[2].data, exp_part: "training", test_type: "colour_only"}}, colour_feedback], repetitions: num_tr_blocks}, // append feedback to the stroop and add repetitions
+            pre_training, // pre task instructions
+            // same again - spread the block object and add to the keys inside
+            {...stroop_task, timeline: [stroop_task.timeline[0], {...stroop_task.timeline[3], data: {...stroop_task.timeline[3].data, exp_part: "training", test_type: "colour"}}, colour_feedback], repetitions: num_tr_blocks},
             pre_test,
             // same again - spread the block object and add to the keys inside
-            {...stroop_task, timeline: [stroop_task.timeline[0], {...stroop_task.timeline[3], data: {...stroop_task.timeline[3].data, test_type: "colour"}}], repetitions: num_blocks},
+            {...stroop_task, timeline: [stroop_task.timeline[0], {...stroop_task.timeline[3], data: {...stroop_task.timeline[3].data, exp_part: "testing", test_type: "colour"}}], repetitions: num_blocks},
             finished_task
         ];
         
         var stroop_size_proc = [
             size_instructions,
+            pre_1d_training,
+            {...stroop_task, timeline: [stroop_task.timeline[0], {...stroop_task.timeline[1], data: {...stroop_task.timeline[1].data, exp_part: "training", test_type: "size_only"}}, size_feedback], repetitions: num_tr_blocks},
             pre_training,
-            {...stroop_task, timeline: [stroop_task.timeline[0], stroop_task.timeline[2], size_feedback], repetitions: num_tr_blocks},
+            {...stroop_task, timeline: [stroop_task.timeline[0], {...stroop_task.timeline[3], data: {...stroop_task.timeline[3].data, exp_part: "training", test_type: "size"}}, size_feedback], repetitions: num_tr_blocks},
             pre_test,
-            {...stroop_task, timeline: [stroop_task.timeline[0], {...stroop_task.timeline[3], data: {...stroop_task.timeline[3].data, test_type: "size"}}], repetitions: num_blocks},
+            {...stroop_task, timeline: [stroop_task.timeline[0], {...stroop_task.timeline[3], data: {...stroop_task.timeline[3].data, exp_part: "testing", test_type: "size"}}], repetitions: num_blocks},
             finished_task
         ];
 
         var falsefont_colour_proc = [
             colour_instructions,
+            pre_1d_training,
+            {...false_font_task, timeline: [false_font_task.timeline[0], {...false_font_task.timeline[2], data: {...false_font_task.timeline[2].data, exp_part: "training", test_type: "colour_only"}}, colour_feedback], repetitions: num_tr_blocks},
             pre_training,
-            {...false_font_task, timeline: [false_font_task.timeline[0], false_font_task.timeline[1], colour_feedback], repetitions: num_tr_blocks},
+            {...false_font_task, timeline: [false_font_task.timeline[0], {...false_font_task.timeline[3], data: {...false_font_task.timeline[3].data, exp_part: "training", test_type: "colour"}}, colour_feedback], repetitions: num_tr_blocks},
             pre_test,
-            {...false_font_task, timeline: [false_font_task.timeline[0], {...false_font_task.timeline[3], data: {...false_font_task.timeline[3].data, test_type: "colour"}}], repetitions: num_blocks},
+            {...false_font_task, timeline: [false_font_task.timeline[0], {...false_font_task.timeline[3], data: {...false_font_task.timeline[3].data, exp_part: "testing", test_type: "colour"}}], repetitions: num_blocks},
             finished_task
         ];
 
         var falsefont_size_proc = [
             size_instructions,
+            pre_1d_training,
+            {...false_font_task, timeline: [false_font_task.timeline[0], {...false_font_task.timeline[1], data: {...false_font_task.timeline[1].data, exp_part: "training", test_type: "size_only"}}, size_feedback], repetitions: num_tr_blocks},
             pre_training,
-            {...false_font_task, timeline: [false_font_task.timeline[0], false_font_task.timeline[2], size_feedback], repetitions: num_tr_blocks},
+            {...false_font_task, timeline: [false_font_task.timeline[0], {...false_font_task.timeline[3], data: {...false_font_task.timeline[3].data, exp_part: "training", test_type: "size"}}, size_feedback], repetitions: num_tr_blocks},
             pre_test,
-            {...false_font_task, timeline: [false_font_task.timeline[0], {...false_font_task.timeline[3], data: {...false_font_task.timeline[3].data, test_type: "size"}}], repetitions: num_blocks},
+            {...false_font_task, timeline: [false_font_task.timeline[0], {...false_font_task.timeline[3], data: {...false_font_task.timeline[3].data, exp_part: "testing", test_type: "size"}}], repetitions: num_blocks},
             finished_task
         ];
         
