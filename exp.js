@@ -313,6 +313,11 @@
         for (i = 0; i < false_font_task.timeline_variables.length; i++) {
             falsefont_image_paths[i] = false_font_task.timeline_variables[i].stim_path;
         }
+        var oned_image_paths = []; // init the variable
+        oned_image_paths[colours.length] = "stimuli/line.svg";
+        for (i = 0; i < colours.length; i++) {
+           oned_image_paths[i] = `stimuli/${colours[i]}.svg`;
+        }
 
         ////////////////////////
         /* procedure creation */
