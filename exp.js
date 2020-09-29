@@ -283,7 +283,7 @@
                     stimulus: 'stimuli/line.svg',
                     stimulus_height: jsPsych.timelineVariable('stim_size'),
                     choices: resp_keys,
-                    trial_duration: 2000,
+                    trial_duration: trial_time,
                     response_ends_trial: false,
                     data: {
                         stim_data: jsPsych.timelineVariable('add_data'),
@@ -294,7 +294,7 @@
                     stimulus: jsPsych.timelineVariable('trn_stim'),
                     stimulus_height: stim_height.medium,
                     choices: resp_keys,
-                    trial_duration: 2000,
+                    trial_duration: trial_time,
                     response_ends_trial: false,
                     data: {
                         stim_data: jsPsych.timelineVariable('add_data'),
@@ -305,7 +305,7 @@
                     stimulus: jsPsych.timelineVariable('stim_path'),
                     stimulus_height: jsPsych.timelineVariable('stim_size'),
                     choices: resp_keys,
-                    trial_duration: 2000,
+                    trial_duration: trial_time,
                     response_ends_trial: false,
                     data: {
                         stim_data: jsPsych.timelineVariable('add_data'),
@@ -336,7 +336,7 @@
                     stimulus: 'stimuli/line.svg',
                     stimulus_height: jsPsych.timelineVariable('stim_size'),
                     choices: resp_keys,
-                    trial_duration: 2000,
+                    trial_duration: trial_time,
                     response_ends_trial: false,
                     data: {
                         stim_data: jsPsych.timelineVariable('add_data'),
@@ -347,7 +347,7 @@
                     stimulus: jsPsych.timelineVariable('trn_stim'),
                     stimulus_height: stim_height.medium,
                     choices: resp_keys,
-                    trial_duration: 2000,
+                    trial_duration: trial_time,
                     response_ends_trial: false,
                     data: {
                         stim_data: jsPsych.timelineVariable('add_data'),
@@ -358,7 +358,7 @@
                     stimulus: jsPsych.timelineVariable('stim_path'),
                     stimulus_height: jsPsych.timelineVariable('stim_size'),
                     choices: resp_keys,
-                    trial_duration: 2000,
+                    trial_duration: trial_time,
                     response_ends_trial: false,
                     data: {
                         stim_data: jsPsych.timelineVariable('add_data'),
