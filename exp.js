@@ -16,14 +16,14 @@
         /* response keys */
         ///////////////////
 
-        var resp_keys = ['1','2','3'];
+        var resp_keys = ['1','2','3',97,98,99];
         var resp_coding = {
-            small: resp_keys[0],
-            medium: resp_keys[1],
-            large: resp_keys[2],
-            red: resp_keys[0],
-            blue: resp_keys[1],
-            green: resp_keys[2]
+            small: resp_keys[0,3],
+            medium: resp_keys[1,4],
+            large: resp_keys[2,5],
+            red: resp_keys[0,3],
+            blue: resp_keys[1,4],
+            green: resp_keys[2,5]
         }
         jsPsych.data.addProperties({ // push that to the data object
           response_mapping: resp_coding
@@ -179,7 +179,7 @@
         /* report size instructions */
         var size_instructions = {
             type: 'html-keyboard-response',
-            stimulus: '<p>In this version of the task, you must report the <em>size</em> of the image by pressing a button.<br>The size of these symbols differ in <strong>height</strong>. They will be either</p><br>'+
+            stimulus: '<p>In this version of the task, you must report the <em>height</em> of the image by pressing a button.<br>The height of these symbols differ in <strong>height</strong>. They will be either</p><br>'+
                 '<p>small: '+JSON.stringify(resp_keys[0])+', medium: '+JSON.stringify(resp_keys[1])+', large: '+JSON.stringify(resp_keys[2])+'</p><br>'+
                 '<p>Please watch the centre of the screen between images!</p><br>'+
                 '<br><p>Press any key to continue.</p>',
