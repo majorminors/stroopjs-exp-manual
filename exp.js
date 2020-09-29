@@ -16,14 +16,23 @@
         /* response keys */
         ///////////////////
 
+        // 1 = 49, 2 = 50, 3 = 51, Numpad1 = 97, Numpad2 = 98, Numpad3 = 99
         var resp_keys = ['1','2','3',97,98,99];
         var resp_coding = {
-            small: resp_keys[0,3],
-            medium: resp_keys[1,4],
-            large: resp_keys[2,5],
-            red: resp_keys[0,3],
-            blue: resp_keys[1,4],
-            green: resp_keys[2,5]
+            small: [resp_keys[0],resp_keys[3]],
+            medium: [resp_keys[1],resp_keys[4]],
+            large: [resp_keys[2],resp_keys[5]],
+            red: [resp_keys[0],resp_keys[3]],
+            blue: [resp_keys[1],resp_keys[4]],
+            green: [resp_keys[2],resp_keys[5]]
+        }
+        var resp_feedback = {
+            small: resp_keys[0],
+            medium: resp_keys[1],
+            large: resp_keys[2],
+            red: resp_keys[0],
+            blue: resp_keys[1],
+            green: resp_keys[2]
         }
         jsPsych.data.addProperties({ // push that to the data object
           response_mapping: resp_coding
@@ -223,7 +232,7 @@
             type: 'html-keyboard-response',
             stimulus: function(){
                 var size_string = jsPsych.data.get().last(1).values()[0].stim_data.size;
-                return '<p> correct answer: <span style="font-size: 40px;">'+JSON.stringify(size_string)+'</span><br><br>which is button: <span style="font-size: 40px;">'+JSON.stringify(resp_coding[size_string])+'</span></p>';
+                return '<p> correct answer: <span style="font-size: 40px;">'+JSON.stringify(size_string)+'</span><br><br>which is button: <span style="font-size: 40px;">'+JSON.stringify(resp_feedback[size_string])+'</span></p>';
             },
             choices: jsPsych.NO_KEYS,
             trial_duration: 800,
@@ -232,7 +241,7 @@
             type: 'html-keyboard-response',
             stimulus: function(){
                 var colour_string = jsPsych.data.get().last(1).values()[0].stim_data.colour;
-                return '<p> correct answer: <span style="font-size: 40px;">'+JSON.stringify(colour_string)+'</span><br><br>which is button: <span style="font-size: 40px;">'+JSON.stringify(resp_coding[colour_string])+'</span></p>';
+                return '<p> correct answer: <span style="font-size: 40px;">'+JSON.stringify(colour_string)+'</span><br><br>which is button: <span style="font-size: 40px;">'+JSON.stringify(resp_feedback[colour_string])+'</span></p>';
             },
             choices: jsPsych.NO_KEYS,
             trial_duration: 800,
