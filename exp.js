@@ -186,7 +186,6 @@
             timeline.push(button_instructions);
         }
 
-
         /* report size instructions */
         var size_instructions = {
             type: 'html-keyboard-response',
@@ -391,6 +390,14 @@
         /* procedure creation */
         ////////////////////////
 
+        // we'll create something to remove items from these arrays
+        // since we only want the extra training for the first two procedures
+        function proc_editor(x){
+            x.splice(1,2); // remove 1d stuff
+            x.splice(2,1); // remove instruction reminder (position AFTER previous splice)
+            return x;
+        }
+
         var stroop_colour_proc = [
             colour_instructions, // precede stroop with colour instructions
             pre_1d_training,
@@ -463,6 +470,9 @@
         }
 
         var shuffled_procedure = shuffle(unshuffled_procedure); // shuffle the procedure
+        proc_editor(shuffled_procedure[2]);
+        proc_editor(shuffled_procedure[3]);
+
         var flattened_procedure = shuffled_procedure.flat(); // flatten it into one layer
         
         for (i = 0; i < flattened_procedure.length; i++) { // loop through the shuffled and flattened procedure array, and push each jsPsych trial block to the timeline
