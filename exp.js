@@ -19,17 +19,17 @@
         // 1 = 49, 2 = 50, 3 = 51, Numpad1 = 97, Numpad2 = 98, Numpad3 = 99
         var resp_keys = ['1','2','3',97,98,99];
         var resp_coding = {
-            small: [resp_keys[0],resp_keys[3]],
+            short: [resp_keys[0],resp_keys[3]],
             medium: [resp_keys[1],resp_keys[4]],
-            large: [resp_keys[2],resp_keys[5]],
+            tall: [resp_keys[2],resp_keys[5]],
             red: [resp_keys[0],resp_keys[3]],
             blue: [resp_keys[1],resp_keys[4]],
             green: [resp_keys[2],resp_keys[5]]
         }
         var resp_feedback = {
-            small: resp_keys[0],
+            short: resp_keys[0],
             medium: resp_keys[1],
-            large: resp_keys[2],
+            tall: resp_keys[2],
             red: resp_keys[0],
             blue: resp_keys[1],
             green: resp_keys[2]
@@ -46,9 +46,9 @@
 
         var window_height = window.innerHeight; // get the window height in pixels	
         var stim_height = { // stimulus height in pixels - width is auto (i.e. will maintain aspect ratio)
-            small: window_height*0.1,
+            short: window_height*0.1,
             medium: window_height*0.3,
-            large: window_height*0.5
+            tall: window_height*0.5
         }
 
         // little stimulus factory we'll use later when constructing the trials
@@ -80,8 +80,8 @@
         // will produce a list of calls to the stimulusFactory
         // don't have to use this--can just call stimulus factory directly however many times like:
         //          timeline_variables: [
-        //              stimulusFactory("green", "red", "small"),
-        //              stimulusFactory("green", "blue", "small"),
+        //              stimulusFactory("green", "red", "short"),
+        //              stimulusFactory("green", "blue", "short"),
         //              ...
         //          ]
         function stimListFactory(colours, doFalseFont, sizes) {
@@ -188,8 +188,15 @@
         /* report size instructions */
         var size_instructions = {
             type: 'html-keyboard-response',
-            stimulus: '<p>In this version of the task, you must report the <em>height</em> of the image by pressing a button.<br>The height of these symbols differ in <strong>height</strong>. They will be either</p><br>'+
-                '<p>small: '+JSON.stringify(resp_keys[0])+', medium: '+JSON.stringify(resp_keys[1])+', large: '+JSON.stringify(resp_keys[2])+'</p><br>'+
+            stimulus: '<p>In this version of the task, you must report the <em>height</em> of the image by pressing a button.<br>It will be either</p><br>'+
+                '<p>short: '+JSON.stringify(resp_keys[0])+', medium: '+JSON.stringify(resp_keys[1])+', tall: '+JSON.stringify(resp_keys[2])+'</p><br>'+
+                '<p>Please keep your eyes on the centre of the screen throughout.</p><br>'+
+                '<br><p>Press any key to continue.</p>',
+        }
+        var size_instruction_reminder = {
+            type: 'html-keyboard-response',
+            stimulus: '<p>Remember, you must report the <em>height</em> of the image which will be either</p><br>'+
+                '<p>short: '+JSON.stringify(resp_keys[0])+', medium: '+JSON.stringify(resp_keys[1])+', tall: '+JSON.stringify(resp_keys[2])+'</p><br>'+
                 '<p>Please keep your eyes on the centre of the screen throughout.</p><br>'+
                 '<br><p>Press any key to continue.</p>',
         }
@@ -198,6 +205,13 @@
         var colour_instructions = {
             type: 'html-keyboard-response',
             stimulus: '<p>In this version of the task, you must report the <em>colour</em> of the image by pressing a button.<br>It will be either</p><br>'+
+                '<p>red: '+JSON.stringify(resp_keys[0])+', blue: '+JSON.stringify(resp_keys[1])+', green: '+JSON.stringify(resp_keys[2])+'</p><br>'+
+                '<p>Please keep your eyes on the centre of the screen throughout.</p><br>'+
+                '<br><p>Press any key to continue.</p>',
+        }
+        var colour_instruction_reminder = {
+            type: 'html-keyboard-response',
+            stimulus: '<p>Remember, you must report the <em>size</em> of the image which will be either</p><br>'+
                 '<p>red: '+JSON.stringify(resp_keys[0])+', blue: '+JSON.stringify(resp_keys[1])+', green: '+JSON.stringify(resp_keys[2])+'</p><br>'+
                 '<p>Please keep your eyes on the centre of the screen throughout.</p><br>'+
                 '<br><p>Press any key to continue.</p>',
@@ -381,7 +395,7 @@
             // now we spread (shallow copy) the block object, and add to the keys inside - we need to be careful here, because it will only shallow copy: editing too deep will permanently alter the block object
             {...stroop_task, timeline: [stroop_task.timeline[0], {...stroop_task.timeline[2], data: {...stroop_task.timeline[2].data, exp_part: "training", test_type: "colour_only"}}, colour_feedback], repetitions: num_tr_blocks}, // append feedback to the stroop and add repetitions
             pre_training, // pre task instructions
-            colour_instructions, // precede stroop with colour instructions
+            colour_instruction_reminder, // precede the task with the reminder of the task
             // same again - spread the block object and add to the keys inside
             {...stroop_task, timeline: [stroop_task.timeline[0], {...stroop_task.timeline[3], data: {...stroop_task.timeline[3].data, exp_part: "training", test_type: "colour"}}, colour_feedback], repetitions: num_tr_blocks},
             pre_test,
@@ -395,7 +409,7 @@
             pre_1d_training,
             {...stroop_task, timeline: [stroop_task.timeline[0], {...stroop_task.timeline[1], data: {...stroop_task.timeline[1].data, exp_part: "training", test_type: "size_only"}}, size_feedback], repetitions: num_tr_blocks},
             pre_training,
-            size_instructions,
+            size_instruction_reminder,
             {...stroop_task, timeline: [stroop_task.timeline[0], {...stroop_task.timeline[3], data: {...stroop_task.timeline[3].data, exp_part: "training", test_type: "size"}}, size_feedback], repetitions: num_tr_blocks},
             pre_test,
             {...stroop_task, timeline: [stroop_task.timeline[0], {...stroop_task.timeline[3], data: {...stroop_task.timeline[3].data, exp_part: "testing", test_type: "size"}}], repetitions: num_blocks},
@@ -407,7 +421,7 @@
             pre_1d_training,
             {...false_font_task, timeline: [false_font_task.timeline[0], {...false_font_task.timeline[2], data: {...false_font_task.timeline[2].data, exp_part: "training", test_type: "colour_only"}}, colour_feedback], repetitions: num_tr_blocks},
             pre_training,
-            colour_instructions,
+            colour_instruction_reminder,
             {...false_font_task, timeline: [false_font_task.timeline[0], {...false_font_task.timeline[3], data: {...false_font_task.timeline[3].data, exp_part: "training", test_type: "colour"}}, colour_feedback], repetitions: num_tr_blocks},
             pre_test,
             {...false_font_task, timeline: [false_font_task.timeline[0], {...false_font_task.timeline[3], data: {...false_font_task.timeline[3].data, exp_part: "testing", test_type: "colour"}}], repetitions: num_blocks},
@@ -419,7 +433,7 @@
             pre_1d_training,
             {...false_font_task, timeline: [false_font_task.timeline[0], {...false_font_task.timeline[1], data: {...false_font_task.timeline[1].data, exp_part: "training", test_type: "size_only"}}, size_feedback], repetitions: num_tr_blocks},
             pre_training,
-            size_instructions,
+            size_instruction_reminder,
             {...false_font_task, timeline: [false_font_task.timeline[0], {...false_font_task.timeline[3], data: {...false_font_task.timeline[3].data, exp_part: "training", test_type: "size"}}, size_feedback], repetitions: num_tr_blocks},
             pre_test,
             {...false_font_task, timeline: [false_font_task.timeline[0], {...false_font_task.timeline[3], data: {...false_font_task.timeline[3].data, exp_part: "testing", test_type: "size"}}], repetitions: num_blocks},
