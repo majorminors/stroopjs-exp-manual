@@ -128,7 +128,7 @@
         /* do window and viewport stuff */
         //////////////////////////////////
 
-        var screen_dimensions = { //get screen and viewport dimensions
+        var screen_dimensions = { // get screen and viewport dimensions
             type: 'call-function',
             func: function(){
                 var w=window,d=document,e=d.documentElement,g=d.getElementsByTagName('body')[0],viewx=w.innerWidth||e.clientWidth||g.clientWidth,viewy=w.innerHeight||e.clientHeight||g.clientHeight; // lots of shorcuts, but essentially just get some javascript height and width descriptors
@@ -154,12 +154,12 @@
                 })
             },
         }
-        timeline.push(screen_dimensions);        
+        timeline.push(screen_dimensions);
 
         // standardise the screen size
         // var screen_sizer = {
         //     type: 'resize',
-        //     item_width: 3 + 3/8,
+        //     item_width: 3 + 3/8, // I think this is in inches
         //     item_height: 2 + 1/8,
         //     prompt: "<p>Click and drag the lower right corner of the box until the box is the same size as a credit card held up to the screen.</p>",
         //     pixels_per_unit: 150
@@ -215,7 +215,7 @@
         }
         var colour_instruction_reminder = {
             type: 'html-keyboard-response',
-            stimulus: '<p>Remember, you must report the <em>size</em> of the image which will be either</p><br>'+
+            stimulus: '<p>Remember, you must report the <em>colour</em> of the image which will be either</p><br>'+
                 '<p>red: '+JSON.stringify(resp_keys[0])+', blue: '+JSON.stringify(resp_keys[1])+', green: '+JSON.stringify(resp_keys[2])+'</p><br>'+
                 '<p>Please keep your eyes on the centre of the screen throughout.</p><br>'+
                 '<br><p>Press any key to continue.</p>',
@@ -246,7 +246,7 @@
         //////////////////
 
         /* feedback objects we can call later when we put together the procedure */
-        size_feedback = {
+        var size_feedback = {
             type: 'html-keyboard-response',
             stimulus: function(){
                 var size_string = jsPsych.data.get().last(1).values()[0].stim_data.size;
@@ -255,7 +255,7 @@
             choices: jsPsych.NO_KEYS,
             trial_duration: feedback_time,
         }
-        colour_feedback = {
+        var colour_feedback = {
             type: 'html-keyboard-response',
             stimulus: function(){
                 var colour_string = jsPsych.data.get().last(1).values()[0].stim_data.colour;
