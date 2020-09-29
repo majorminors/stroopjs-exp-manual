@@ -7,6 +7,9 @@
 
         var num_blocks = 2; // will repeat each block of stimuli this number of times (blocked together)
         var num_tr_blocks = 1; // number of training blocks (same principle as num_blocks)
+        var feedback_time = 800; // ms
+        var fixation_time = 500; // ms
+        var trial_time = 2000; // ms
 
         var participant_id = jsPsych.randomization.randomID(15); // generate a string for participant ID
         jsPsych.data.addProperties({ // push that to the data object
@@ -250,7 +253,7 @@
                 return '<p> correct answer: <span style="font-size: 40px;">'+JSON.stringify(size_string)+'</span><br><br>which is button: <span style="font-size: 40px;">'+JSON.stringify(resp_feedback[size_string])+'</span></p>';
             },
             choices: jsPsych.NO_KEYS,
-            trial_duration: 800,
+            trial_duration: feedback_time,
         }
         colour_feedback = {
             type: 'html-keyboard-response',
@@ -259,7 +262,7 @@
                 return '<p> correct answer: <span style="font-size: 40px;">'+JSON.stringify(colour_string)+'</span><br><br>which is button: <span style="font-size: 40px;">'+JSON.stringify(resp_feedback[colour_string])+'</span></p>';
             },
             choices: jsPsych.NO_KEYS,
-            trial_duration: 800,
+            trial_duration: feedback_time,
         }
 
         /* stroop task */
@@ -269,7 +272,7 @@
                     type: 'html-keyboard-response',
                     stimulus: '<div style="font-size:60px;">+</div>',
                     choices: jsPsych.NO_KEYS,
-                    trial_duration: 500,
+                    trial_duration: fixation_time,
                     data: {
                         stim_data: jsPsych.timelineVariable('add_data'), // pull this in so we can access it in a subsequent trial
                         exp_part: "fixation",
@@ -322,7 +325,7 @@
                     type: 'html-keyboard-response',
                     stimulus: '<div style="font-size:60px;">+</div>',
                     choices: jsPsych.NO_KEYS,
-                    trial_duration: 500,
+                    trial_duration: fixation_time,
                     data: {
                         stim_data: jsPsych.timelineVariable('add_data'), // pull this in so we can access it in a subsequent trial
                         exp_part: "fixation",
