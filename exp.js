@@ -12,6 +12,7 @@
         jsPsych.data.addProperties({ // push that to the data object
           participant: participant_id
         });
+
         ///////////////////
         /* response keys */
         ///////////////////
@@ -175,7 +176,8 @@
             type: 'html-keyboard-response',
             stimulus:'<p>The buttons for this experiment will always be: </p>'+
                 '<p>'+JSON.stringify(resp_keys[0])+', '+JSON.stringify(resp_keys[1])+', '+JSON.stringify(resp_keys[2])+'</p>'+
-                'Feel free to use either hand, but you must use this hand throughout the experiment<br><p>Press any key to continue</p>'
+                '<p>You may use the number keys, or the number pad.<br>'+
+                'Feel free to use either hand, but you must use this hand throughout the experiment<br><br>Press any key to continue</p>'
         }
 
         /* push those to the timeline, if instructions are on */
