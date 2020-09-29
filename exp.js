@@ -181,7 +181,7 @@
             type: 'html-keyboard-response',
             stimulus: '<p>In this version of the task, you must report the <em>height</em> of the image by pressing a button.<br>The height of these symbols differ in <strong>height</strong>. They will be either</p><br>'+
                 '<p>small: '+JSON.stringify(resp_keys[0])+', medium: '+JSON.stringify(resp_keys[1])+', large: '+JSON.stringify(resp_keys[2])+'</p><br>'+
-                '<p>Please watch the centre of the screen between images!</p><br>'+
+                '<p>Please keep your eyes on the centre of the screen throughout.</p><br>'+
                 '<br><p>Press any key to continue.</p>',
         }
 
@@ -190,7 +190,7 @@
             type: 'html-keyboard-response',
             stimulus: '<p>In this version of the task, you must report the <em>colour</em> of the image by pressing a button.<br>It will be either</p><br>'+
                 '<p>red: '+JSON.stringify(resp_keys[0])+', blue: '+JSON.stringify(resp_keys[1])+', green: '+JSON.stringify(resp_keys[2])+'</p><br>'+
-                '<p>Please watch the centre of the screen between images!</p><br>'+
+                '<p>Please keep your eyes on the centre of the screen throughout.</p><br>'+
                 '<br><p>Press any key to continue.</p>',
         }
 
@@ -226,7 +226,7 @@
                 return '<p> correct answer: <span style="font-size: 40px;">'+JSON.stringify(size_string)+'</span><br><br>which is button: <span style="font-size: 40px;">'+JSON.stringify(resp_coding[size_string])+'</span></p>';
             },
             choices: jsPsych.NO_KEYS,
-            trial_duration: 600,
+            trial_duration: 800,
         }
         colour_feedback = {
             type: 'html-keyboard-response',
@@ -235,7 +235,7 @@
                 return '<p> correct answer: <span style="font-size: 40px;">'+JSON.stringify(colour_string)+'</span><br><br>which is button: <span style="font-size: 40px;">'+JSON.stringify(resp_coding[colour_string])+'</span></p>';
             },
             choices: jsPsych.NO_KEYS,
-            trial_duration: 600,
+            trial_duration: 800,
         }
 
         /* stroop task */
@@ -245,7 +245,7 @@
                     type: 'html-keyboard-response',
                     stimulus: '<div style="font-size:60px;">+</div>',
                     choices: jsPsych.NO_KEYS,
-                    trial_duration: 300,
+                    trial_duration: 500,
                     data: {
                         stim_data: jsPsych.timelineVariable('add_data'), // pull this in so we can access it in a subsequent trial
                         exp_part: "fixation",
@@ -298,7 +298,7 @@
                     type: 'html-keyboard-response',
                     stimulus: '<div style="font-size:60px;">+</div>',
                     choices: jsPsych.NO_KEYS,
-                    trial_duration: 300,
+                    trial_duration: 500,
                     data: {
                         stim_data: jsPsych.timelineVariable('add_data'), // pull this in so we can access it in a subsequent trial
                         exp_part: "fixation",
