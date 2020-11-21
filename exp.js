@@ -393,13 +393,6 @@
         /* procedure creation */
         ////////////////////////
 
-        // we'll create something to remove items from these arrays
-        // since we only want the extra training for the first two procedures
-        function proc_editor(x){
-            x.splice(1,2); // remove 1d stuff
-            x.splice(2,1); // remove instruction reminder (position AFTER previous splice)
-            return x;
-        }
 
         var stroop_colour_proc = [
             colour_instructions, // precede stroop with colour instructions
@@ -454,6 +447,31 @@
         
         var unshuffled_procedure = [stroop_colour_proc, stroop_size_proc, falsefont_colour_proc, falsefont_size_proc]; // place all into a single array
 
+       function permute(permutation) {
+          var length = permutation.length,
+              result = [permutation.slice()],
+              c = new Array(length).fill(0),
+              i = 1, k, p;
+
+          while (i < length) {
+            if (c[i] < i) {
+              k = i % 2 && c[i];
+              p = permutation[i];
+              permutation[i] = permutation[k];
+              permutation[k] = p;
+              ++c[i];
+              i = 1;
+              result.push(permutation.slice());
+            } else {
+              c[i] = 0;
+              ++i;
+            }
+          }
+          return result;
+        }
+
+        console.log("permutation: ",permute(unshuffled_procedure)); 
+
         function shuffle(array) { // fisher-yates shuffler function
             var m = array.length, t, i;
 
@@ -473,6 +491,14 @@
         }
 
         var shuffled_procedure = shuffle(unshuffled_procedure); // shuffle the procedure
+        // we'll create something to remove items from these arrays
+        // since we only want the extra training for the first two procedures
+        function proc_editor(x){
+            x.splice(1,2); // remove 1d stuff
+            x.splice(2,1); // remove instruction reminder (position AFTER previous splice)
+            return x;
+        }
+        // now cut the training off the two final procedures
         proc_editor(shuffled_procedure[2]);
         proc_editor(shuffled_procedure[3]);
 
