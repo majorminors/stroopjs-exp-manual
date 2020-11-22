@@ -500,10 +500,11 @@
                 // my attempts are removing everything BUT procedure[0]
                 if (procedure[0].stimulus.includes("colour")) {
                     cCount++;
+                    console.log(cCount);
                     if (cCount == 2) {
                         console.log(cCount);
                         console.log(procedure);
-                        proc_editor(procedure);
+                        cCount = 0;
                     }
                 } else if (procedure[0].stimulus.includes("height")) {
                     hCount++;
@@ -521,6 +522,30 @@
         // now cut the training off the two final procedures
         // proc_editor(shuffled_procedure[2]);
         // proc_editor(shuffled_procedure[3]);
+        function proc_editor(x){
+            x.splice(1,2); // remove 1d stuff
+            x.splice(2,1); // remove instruction reminder (position AFTER previous splice)
+            return x;
+        }
+        thispermutation = permutations[0];
+        console.log(thispermutation);
+            hCount = 0;
+            cCount = 0;
+        thispermutation.forEach(procedure => {
+           if (procedure[0].stimulus.includes("height")) {
+               hCount++;
+               if (hCount == 2) {
+                    proc_editor(procedure);
+               }
+           }
+           if (procedure[0].stimulus.includes("colour")) {
+               cCount++;
+               if (cCount == 2) {
+                    proc_editor(procedure);
+               }
+           }
+        });
+        console.log(thispermutation);
 
         function shuffle(array) { // fisher-yates shuffler function
             var m = array.length, t, i;
