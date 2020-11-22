@@ -447,7 +447,7 @@
         
         var unshuffled_procedure = [stroop_colour_proc, stroop_size_proc, falsefont_colour_proc, falsefont_size_proc]; // place all into a single array
 
-       function permute(permutation) {
+        function permute(permutation) {
           var length = permutation.length,
               result = [permutation.slice()],
               c = new Array(length).fill(0),
@@ -470,7 +470,57 @@
           return result;
         }
 
-        console.log("permutation: ",permute(unshuffled_procedure)); 
+        var permutations = permute(unshuffled_procedure);
+        console.log(permutations); 
+
+        permutations.forEach(permutation => {
+            hCount = 0;
+            cCount = 0;
+            // for (i = 0; i < permutation.length; i++) {
+            //     if (permutation[i][0].stimulus.includes("colour")){
+            //         cCount++;
+            //         if (cCount == 2) {
+            //             console.log(cCount);
+            //             console.log(permutation[i][0]);
+            //             permutation[i].splice(1,2);
+            //             permutation[i].splice(2,1);
+            //         }
+            //     } else if (permutation[i][0].stimulus.includes("height")) {
+            //         hCount++;
+            //     }
+            // }
+            function proc_editor(x){
+                x.splice(1,2); // remove 1d stuff
+                x.splice(2,1); // remove instruction reminder (position AFTER previous splice)
+                return x;
+            }
+            permutation.forEach(procedure => {
+                // the second time procedure[0].stimulus.includes("colour"), splice the 2nd/[1], 3rd/[2], and 5th/[4] object out of the procedure
+                // same the second time procedure[0].stimulus.includes("height")
+                // my attempts are removing everything BUT procedure[0]
+                if (procedure[0].stimulus.includes("colour")) {
+                    cCount++;
+                    if (cCount == 2) {
+                        console.log(cCount);
+                        console.log(procedure);
+                        proc_editor(procedure);
+                    }
+                } else if (procedure[0].stimulus.includes("height")) {
+                    hCount++;
+                    if (cCount == 2) {
+                    }
+                }
+            })
+        })
+        console.log(permutations);
+        // function proc_editor(x){
+        //     x.splice(1,2); // remove 1d stuff
+        //     x.splice(2,1); // remove instruction reminder (position AFTER previous splice)
+        //     return x;
+        // }
+        // now cut the training off the two final procedures
+        // proc_editor(shuffled_procedure[2]);
+        // proc_editor(shuffled_procedure[3]);
 
         function shuffle(array) { // fisher-yates shuffler function
             var m = array.length, t, i;
@@ -493,14 +543,6 @@
         var shuffled_procedure = shuffle(unshuffled_procedure); // shuffle the procedure
         // we'll create something to remove items from these arrays
         // since we only want the extra training for the first two procedures
-        function proc_editor(x){
-            x.splice(1,2); // remove 1d stuff
-            x.splice(2,1); // remove instruction reminder (position AFTER previous splice)
-            return x;
-        }
-        // now cut the training off the two final procedures
-        proc_editor(shuffled_procedure[2]);
-        proc_editor(shuffled_procedure[3]);
 
         var flattened_procedure = shuffled_procedure.flat(); // flatten it into one layer
         
