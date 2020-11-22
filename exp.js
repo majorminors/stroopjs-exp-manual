@@ -473,11 +473,26 @@
         }
         // now permute the procedures
         var permutations = permute(unshuffled_procedure);
-        // this is where we'd chose a permutation based on the PID of the subject
-        thispermutation = permutations[0];
 
+        // so now we want to bin PIDs evenly into permutations
+        function permutation_selector (id, permutations) {
+            length = permutations.length;
+            if (id > length) { // if id is larger than the number of permutations
+                reduced_id = id % length; // divide id by # of permutations and make the new id the remainder
+                return reduced_id;
+            } else {
+                return id;
+            }
+        }
+        // this is where we'd chose a permutation based on the PID of the subject
+        PID = 1682740;
+        id_bin = permutation_selector(PID, permutations);
+        thispermutation = permutations[id_bin];
+        console.log(thispermutation);
+
+        // now we're going to edit this permutation of the procedures, cutting the training from the second occurrence of each task type
         // create an editor function to edit easy training from procedure
-        function proc_editor(x){
+        function proc_editor (x) {
             x.splice(1,2); // remove 1d stuff
             x.splice(2,1); // remove instruction reminder (position AFTER previous splice)
             return x;
