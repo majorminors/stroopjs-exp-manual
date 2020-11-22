@@ -447,6 +447,8 @@
         
         var unshuffled_procedure = [stroop_colour_proc, stroop_size_proc, falsefont_colour_proc, falsefont_size_proc]; // place all into a single array
 
+        // create a function to get all permutations of an array
+        // little long, but the fastest
         function permute(permutation) {
           var length = permutation.length,
               result = [permutation.slice()],
@@ -469,107 +471,57 @@
           }
           return result;
         }
-
+        // now permute the procedures
         var permutations = permute(unshuffled_procedure);
-        console.log(permutations); 
+        // this is where we'd chose a permutation based on the PID of the subject
+        thispermutation = permutations[0];
 
-        permutations.forEach(permutation => {
-            hCount = 0;
-            cCount = 0;
-            // for (i = 0; i < permutation.length; i++) {
-            //     if (permutation[i][0].stimulus.includes("colour")){
-            //         cCount++;
-            //         if (cCount == 2) {
-            //             console.log(cCount);
-            //             console.log(permutation[i][0]);
-            //             permutation[i].splice(1,2);
-            //             permutation[i].splice(2,1);
-            //         }
-            //     } else if (permutation[i][0].stimulus.includes("height")) {
-            //         hCount++;
-            //     }
-            // }
-            function proc_editor(x){
-                x.splice(1,2); // remove 1d stuff
-                x.splice(2,1); // remove instruction reminder (position AFTER previous splice)
-                return x;
-            }
-            permutation.forEach(procedure => {
-                // the second time procedure[0].stimulus.includes("colour"), splice the 2nd/[1], 3rd/[2], and 5th/[4] object out of the procedure
-                // same the second time procedure[0].stimulus.includes("height")
-                // my attempts are removing everything BUT procedure[0]
-                if (procedure[0].stimulus.includes("colour")) {
-                    cCount++;
-                    console.log(cCount);
-                    if (cCount == 2) {
-                        console.log(cCount);
-                        console.log(procedure);
-                        cCount = 0;
-                    }
-                } else if (procedure[0].stimulus.includes("height")) {
-                    hCount++;
-                    if (cCount == 2) {
-                    }
-                }
-            })
-        })
-        console.log(permutations);
-        // function proc_editor(x){
-        //     x.splice(1,2); // remove 1d stuff
-        //     x.splice(2,1); // remove instruction reminder (position AFTER previous splice)
-        //     return x;
-        // }
-        // now cut the training off the two final procedures
-        // proc_editor(shuffled_procedure[2]);
-        // proc_editor(shuffled_procedure[3]);
+        // create an editor function to edit easy training from procedure
         function proc_editor(x){
             x.splice(1,2); // remove 1d stuff
             x.splice(2,1); // remove instruction reminder (position AFTER previous splice)
             return x;
         }
-        thispermutation = permutations[0];
-        console.log(thispermutation);
-            hCount = 0;
-            cCount = 0;
+        // init counters
+        hCount = 0;
+        cCount = 0;
         thispermutation.forEach(procedure => {
            if (procedure[0].stimulus.includes("height")) {
                hCount++;
-               if (hCount == 2) {
+               if (hCount == 2) { // if second time occurring, then cut easy training out
                     proc_editor(procedure);
                }
            }
            if (procedure[0].stimulus.includes("colour")) {
                cCount++;
-               if (cCount == 2) {
+               if (cCount == 2) { // if second time occurring, then cut easy training out
                     proc_editor(procedure);
                }
            }
         });
         console.log(thispermutation);
+        var flattened_procedure = thispermutation.flat(); // flatten into one layer
 
-        function shuffle(array) { // fisher-yates shuffler function
-            var m = array.length, t, i;
+        // // can shuffle blocks and then push instead of assigning permutations
+        // function shuffle(array) { // fisher-yates shuffler function
+        //     var m = array.length, t, i;
 
-            // While there remain elements to shuffle…
-            while (m) {
+        //     // While there remain elements to shuffle…
+        //     while (m) {
 
-                // Pick a remaining element…
-                i = Math.floor(Math.random() * m--);
+        //         // Pick a remaining element…
+        //         i = Math.floor(Math.random() * m--);
 
-                // And swap it with the current element.
-                t = array[m];
-                array[m] = array[i];
-                array[i] = t;
-            }
+        //         // And swap it with the current element.
+        //         t = array[m];
+        //         array[m] = array[i];
+        //         array[i] = t;
+        //     }
 
-            return array;
-        }
-
-        var shuffled_procedure = shuffle(unshuffled_procedure); // shuffle the procedure
-        // we'll create something to remove items from these arrays
-        // since we only want the extra training for the first two procedures
-
-        var flattened_procedure = shuffled_procedure.flat(); // flatten it into one layer
+        //     return array;
+        // }
+        // var shuffled_procedure = shuffle(unshuffled_procedure); // shuffle the procedure
+        // var flattened_procedure = shuffled_procedure.flat(); // flatten it into one layer
         
         for (i = 0; i < flattened_procedure.length; i++) { // loop through the shuffled and flattened procedure array, and push each jsPsych trial block to the timeline
             timeline.push(flattened_procedure[i]);
