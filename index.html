@@ -8,6 +8,8 @@
         <script src="jspsych-6.1.0/plugins/jspsych-resize.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-image-keyboard-response.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js"></script>
+        <!-- generate PID (we can pull this from JATOS, but when running in browser, we just put it here) -->
+        <script>var PID = 999;</script>
         <!-- pull in the actual experiment -->
         <script src="exp.js"></script>
         <!-- pull in the styling -->
@@ -16,6 +18,7 @@
     </head>
     <body></body>
     <script>
+
 
         /* 
          * the experiment script in exp.js produces the variables

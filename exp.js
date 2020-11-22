@@ -11,10 +11,13 @@
         var fixation_time = 500; // ms
         var trial_time = 2000; // ms
 
-        var participant_id = jsPsych.randomization.randomID(15); // generate a string for participant ID
+        var unique_id = jsPsych.randomization.randomID(15); // generate a unique string for participant ID
         jsPsych.data.addProperties({ // push that to the data object
-          participant: participant_id
+          participant_id: PID,
+          unique_id: unique_id
+          // we'll also add the id bin and permutation of procedures
         });
+        console.log("participant id: ", PID);
 
         ///////////////////
         /* response keys */
@@ -316,7 +319,7 @@
             randomize_order: true,
             // 'repetitions:' would go here, but we will assign this more dynamically later
         }
-        console.log(stroop_task.timeline_variables);
+        // console.log(stroop_task.timeline_variables);
 
         /* false font task */
         var false_font_task = {
@@ -369,7 +372,7 @@
             randomize_order: true,
             // 'repetitions:' would go here, but we will assign this more dynamically later
         }
-        console.log(false_font_task.timeline_variables);
+        // console.log(false_font_task.timeline_variables);
 
         //////////////////////////////////////////////////////
         /* grab all the image paths, so we can preload them */
@@ -485,10 +488,13 @@
             }
         }
         // this is where we'd chose a permutation based on the PID of the subject
-        PID = 1682740;
         id_bin = permutation_selector(PID, permutations);
         thispermutation = permutations[id_bin];
-        console.log(thispermutation);
+        console.log("id bin: ", id_bin);
+        
+        jsPsych.data.addProperties({ // push those to the data object
+            id_bin: id_bin,
+        });
 
         // now we're going to edit this permutation of the procedures, cutting the training from the second occurrence of each task type
         // create an editor function to edit easy training from procedure
@@ -514,7 +520,10 @@
                }
            }
         });
-        console.log(thispermutation);
+        console.log("permutation of procedures: ", thispermutation);
+        jsPsych.data.addProperties({ // push those to the data object
+            procedure: thispermutation
+        });
         var flattened_procedure = thispermutation.flat(); // flatten into one layer
 
         // // can shuffle blocks and then push instead of assigning permutations
