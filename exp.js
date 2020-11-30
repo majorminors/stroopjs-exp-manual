@@ -1,3 +1,7 @@
+function make_experiment (PID,return_what) {
+
+    // requires PID for task permutation
+    // if return_what == "images", will return image paths (for preloading)
 
         ////////////
         /* set up */
@@ -374,28 +378,9 @@
         }
         // console.log(false_font_task.timeline_variables);
 
-        //////////////////////////////////////////////////////
-        /* grab all the image paths, so we can preload them */
-        //////////////////////////////////////////////////////
-
-        var stroop_image_paths = []; // init the variable
-        for (i = 0; i < stroop_task.timeline_variables.length; i++) {
-            stroop_image_paths[i] = stroop_task.timeline_variables[i].stim_path;
-        }
-        var falsefont_image_paths = []; // init the variable
-        for (i = 0; i < false_font_task.timeline_variables.length; i++) {
-            falsefont_image_paths[i] = false_font_task.timeline_variables[i].stim_path;
-        }
-        var oned_image_paths = []; // init the variable
-        oned_image_paths[colours.length] = "stimuli/line.svg";
-        for (i = 0; i < colours.length; i++) {
-           oned_image_paths[i] = `stimuli/${colours[i]}.svg`;
-        }
-
         ////////////////////////
         /* procedure creation */
         ////////////////////////
-
 
         var stroop_colour_proc = [
             colour_instructions, // precede stroop with colour instructions
@@ -526,27 +511,37 @@
         });
         var flattened_procedure = thispermutation.flat(); // flatten into one layer
 
-        // // can shuffle blocks and then push instead of assigning permutations
-        // function shuffle(array) { // fisher-yates shuffler function
-        //     var m = array.length, t, i;
-
-        //     // While there remain elements to shuffle…
-        //     while (m) {
-
-        //         // Pick a remaining element…
-        //         i = Math.floor(Math.random() * m--);
-
-        //         // And swap it with the current element.
-        //         t = array[m];
-        //         array[m] = array[i];
-        //         array[i] = t;
-        //     }
-
-        //     return array;
-        // }
-        // var shuffled_procedure = shuffle(unshuffled_procedure); // shuffle the procedure
-        // var flattened_procedure = shuffled_procedure.flat(); // flatten it into one layer
-        
         for (i = 0; i < flattened_procedure.length; i++) { // loop through the shuffled and flattened procedure array, and push each jsPsych trial block to the timeline
             timeline.push(flattened_procedure[i]);
         }
+
+        //////////////////////////////////////////////////////
+        /* grab all the image paths, so we can preload them */
+        //////////////////////////////////////////////////////
+
+        var stroop_image_paths = []; // init the variable
+        for (i = 0; i < stroop_task.timeline_variables.length; i++) {
+            stroop_image_paths[i] = stroop_task.timeline_variables[i].stim_path;
+        }
+        var falsefont_image_paths = []; // init the variable
+        for (i = 0; i < false_font_task.timeline_variables.length; i++) {
+            falsefont_image_paths[i] = false_font_task.timeline_variables[i].stim_path;
+        }
+        var oned_image_paths = []; // init the variable
+        oned_image_paths[colours.length] = "stimuli/line.svg";
+        for (i = 0; i < colours.length; i++) {
+           oned_image_paths[i] = `stimuli/${colours[i]}.svg`;
+        }
+
+        var image_paths = [stroop_image_paths, falsefont_image_paths,oned_image_paths];
+
+        ///////////////////////////
+        /* package everything up */
+        ///////////////////////////
+
+        if (return_what == "images") {
+            return image_paths;
+        } else {
+            return timeline;
+        }
+}
