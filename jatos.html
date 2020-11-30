@@ -34,6 +34,10 @@
             jsPsych.init({
                 timeline: make_experiment(PID),
                 preload_images: make_experiment(PID,"images"),
+                exclusions: {
+                    min_width: 800,
+                    min_height: 600
+                },
                 on_finish: function() {
                     var resultJson = jsPsych.data.get().json();
                     jatos.submitResultData(resultJson, jatos.startNextComponent);

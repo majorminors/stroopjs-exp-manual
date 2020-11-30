@@ -18,7 +18,7 @@
     <script>
 
         // needs this to generate the experiment
-        var PID = 999;
+        var pid = 999;
 
         /* 
          * the experiment script in exp.js produces the variables
@@ -31,6 +31,10 @@
         jsPsych.init({
             timeline: make_experiment(PID),
             preload_images: make_experiment(PID,"images"),
+            exclusions: {
+                min_width: 800,
+                min_height: 600
+            },
             on_finish: function(){
                 jsPsych.data.displayData();
             }
