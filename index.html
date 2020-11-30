@@ -17,15 +17,14 @@
     <body></body>
     <script>
 
-        // needs this to generate the experiment
-        var pid = 999;
-
         /* 
          * the experiment script in exp.js produces the variables
          * jsPsych needs to run the experiment
          * we do this so we don't have to maintain it twice for JATOS
          * (jatos.html) and non-JATOS (index.html) versions
         */
+
+        var PID = 1;
 
         /* initialise experiment */
         jsPsych.init({
