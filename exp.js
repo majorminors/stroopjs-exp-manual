@@ -19,7 +19,7 @@ function make_experiment (id_number,return_what) {
         jsPsych.data.addProperties({ // push that to the data object
           id_number: id_number,
           unique_id: unique_id
-          // we'll also add the id bin and permutation of procedures
+          // we'll also add the condition bin and permutation of procedures
         });
         console.log("id number: ", id_number);
 
