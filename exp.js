@@ -57,9 +57,9 @@ function make_experiment (id_number,return_what) {
 
         var window_height = window.innerHeight; // get the window height in pixels	
         var stim_height = { // stimulus height in pixels - width is auto (i.e. will maintain aspect ratio)
-            short: window_height*0.075,
-            medium: window_height*0.15,
-            tall: window_height*0.3
+            short: 100, //window_height*0.075,
+            medium: 200, //window_height*0.15,
+            tall: 300 //window_height*0.3
         }
 
         // little stimulus factory we'll use later when constructing the trials
