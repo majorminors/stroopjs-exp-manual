@@ -506,14 +506,22 @@ function make_experiment (id_number,return_what) {
            }
         });
         console.log("permutation of procedures: ", thispermutation);
-        jsPsych.data.addProperties({ // push those to the data object
-            procedure: thispermutation
-        });
         var flattened_procedure = thispermutation.flat(); // flatten into one layer
 
         for (i = 0; i < flattened_procedure.length; i++) { // loop through the shuffled and flattened procedure array, and push each jsPsych trial block to the timeline
             timeline.push(flattened_procedure[i]);
         }
+
+        /////////////////////////////////////////////////////////////
+        /* set up a thank you trial and append the procedure to it */
+        /////////////////////////////////////////////////////////////
+        
+        var finish_screen = { 
+            type: 'html-keyboard-response',
+            stimulus: "<p>All done, thanks!<br>Press any key to finish</p>",
+            data: { procedure: thispermutation }
+        }
+        timeline.push(finish_screen);
 
         //////////////////////////////////////////////////////
         /* grab all the image paths, so we can preload them */
