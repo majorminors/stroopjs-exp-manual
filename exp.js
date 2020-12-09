@@ -57,9 +57,9 @@ function make_experiment (id_number,return_what) {
 
         var window_height = window.innerHeight; // get the window height in pixels	
         var stim_height = { // stimulus height in pixels - width is auto (i.e. will maintain aspect ratio)
-            short: window_height*0.1,
-            medium: window_height*0.3,
-            tall: window_height*0.5
+            short: window_height*0.075,
+            medium: window_height*0.15,
+            tall: window_height*0.3
         }
 
         // little stimulus factory we'll use later when constructing the trials
@@ -179,7 +179,7 @@ function make_experiment (id_number,return_what) {
 
         var instructions_onstart = {
             type: 'html-keyboard-response',
-            stimulus:"<p>In this experiment you'll see images on the screen and respond by pressing buttons<br>There are four different tasks in this experiment.<br>Each one is slightly different, although all are similar.<br>At the start of each task, you'll get some instructions.<br>Then there will be a short 'training' period during which we'll tell you the correct answer after each trial.<br>Then you'll start the block properly and you won't get any feedback until the next block.<br><br><br>When ready, press any key continue.</p>"
+            stimulus:"<p>In this experiment you'll see images on the screen and respond by pressing buttons.<br>There are four different tasks in this experiment.<br>Each one is slightly different, although all are similar.<br>At the start of each task, you'll get some instructions.<br>Then there will be a short 'training' period during which we'll tell you the correct answer after each trial.<br>Then you'll start the block properly and you won't get any feedback until the next block.<br><br><br>When ready, press any key continue.</p>"
         }
 
         var button_instructions = {
