@@ -48,7 +48,7 @@
                 },
                 on_finish: function() {
                     var resultJson = jsPsych.data.get().json();
-                    jatos.submitResultData(resultJson, jatos.startNextComponent)
+                    jatos.submitResultData(resultJson)
                     .then(jatos.endStudyAjax)
                     .then(() => {
                         window.location.href = 'https://app.prolific.co/submissions/complete?cc=8D08D474'
