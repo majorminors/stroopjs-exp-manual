@@ -518,7 +518,7 @@ function make_experiment (id_number,return_what) {
         
         var finish_screen = { 
             type: 'html-keyboard-response',
-            stimulus: "<p>All done, thanks!<br>Press any key to finish</p>",
+            stimulus: "<p>All done, thanks!<br>Press any key to finish and please wait to be redirected.</p>",
             data: { procedure: thispermutation }
         }
         timeline.push(finish_screen);
