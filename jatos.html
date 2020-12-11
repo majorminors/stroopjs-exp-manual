@@ -59,6 +59,15 @@
                     .then(() => {
                         window.location.href = 'https://app.prolific.co/submissions/complete?cc=8D08D474'
                     });
+                },
+                on_close: function(){ // save data if browser is closed
+                    var time = jsPsych.totalTime();
+                    jsPsych.data.addProperties({
+                        expt_duration: time,
+                    });
+
+                    var resultJson = jsPsych.data.get().json(); 
+                    jatos.submitResultData(resultJson, jatos.endStudy);
                 }
             });
         });
