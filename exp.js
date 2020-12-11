@@ -131,6 +131,7 @@ function make_experiment (id_number,return_what) {
 
         var timeline = []; // initialise timeline
         get_consent(timeline); // do the consent function
+        get_demographics(timeline); // do the demographics function
 
         //////////////////////////////////
         /* do window and viewport stuff */

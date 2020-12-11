@@ -1,6 +1,6 @@
-function getPreSurvey(timeline){
+function get_demographics(timeline){
 
-    var pre_survey_txt = { //age
+    var demographics_one = { 
         type: 'survey-text',
         questions: [
             {prompt: '<scan>How old are you?</scan>',rows: 1, columns: 10,name: 'age',required: true},
@@ -8,17 +8,17 @@ function getPreSurvey(timeline){
         ],
         button_label: ['->'],
     }
-    timeline.push(pre_survey_txt)
+    timeline.push(demographics_one);
 
-    var pre_survey_multi = { //sex, handedness, vision
+    var demographics_two = { 
         type: 'survey-multi-choice',
         questions: [
                 {prompt: '<scan >What is your sex?</scan>',name: 'sex',options: ["<span>female</span>","<span>male</span>","<span>intersex</span>","<span>prefer not to say</span>",],required: true},
                 {prompt: '<scan>Which is your dominant hand?</scan>',name: 'hand',options: ["<span>left</span>","<span>right</span>"],required: true}, 
                 {prompt: '<scan>Do you wear glasses or contacts?</scan>',name: 'vis',options: ["<span>yes</span>","<span>no</span>"],required: true}, 
-                {prompt: '<scan>Do you have normal colour vision? <strong>If not, please exit the experiment now.</strong></scan>',name: 'colvis',options: ["<span>yes</span>","<span>no</span>"],required: true}, 
+               // {prompt: '<scan>Do you have normal colour vision? <strong>If not, please exit the experiment now.</strong></scan>',name: 'colvis',options: ["<span>yes</span>","<span>no</span>"],required: true}, 
         ],
         button_label: ['->'],
     }
-    timeline.push(pre_survey_multi)
+    timeline.push(demographics_two);
 }
