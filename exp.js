@@ -520,7 +520,7 @@ function make_experiment (id_number,return_what) {
         
         var finish_screen = { 
             type: 'html-keyboard-response',
-            stimulus: "<p>All done, thanks!<br>Feel free to email me if you'd like to know more about what the study was exploring.<br>dorian.minors@mrc-cbu.cam.ac.uk<br>Press any key to finish and please wait to be redirected.</p>",
+            stimulus: "<p>All done!<br><br>Thanks so much for participating.<br>Feel free to email me if you'd like to know more about what the study was exploring.<br>dorian.minors@mrc-cbu.cam.ac.uk<br><br>Press any key to finish and please wait to be redirected.</p>",
             data: { procedure: thispermutation }
         }
         timeline.push(finish_screen);
