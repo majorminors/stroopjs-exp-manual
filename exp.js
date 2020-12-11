@@ -130,6 +130,7 @@ function make_experiment (id_number,return_what) {
         } 
 
         var timeline = []; // initialise timeline
+        get_consent(timeline); // do the consent function
 
         //////////////////////////////////
         /* do window and viewport stuff */
