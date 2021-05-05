@@ -9,11 +9,11 @@ function make_experiment (id_number,return_what) {
 
         var instructions_on = 1; // you can turn off (0) the first block of instructions if you want to test
 
-        var num_blocks = 2; // will repeat each block of stimuli this number of times (blocked together)
+        var num_blocks = 6; // will repeat each block of stimuli this number of times (blocked together)
         var num_tr_blocks = 1; // number of training blocks (same principle as num_blocks)
         var feedback_time = 800; // ms
-        var fixation_time = 500; // ms
-        var trial_time = 2000; // ms
+        var fixation_time = 300; // ms
+        var trial_time = 1500; // ms
 
         var unique_id = jsPsych.randomization.randomID(15); // generate a unique string for participant ID
         jsPsych.data.addProperties({ // push that to the data object
@@ -291,6 +291,7 @@ function make_experiment (id_number,return_what) {
                     type: 'image-keyboard-response',
                     stimulus: 'stimuli/line.svg',
                     stimulus_height: jsPsych.timelineVariable('stim_size'),
+                    stimulus_duration: 200,
                     choices: resp_keys,
                     trial_duration: trial_time,
                     response_ends_trial: false,
@@ -302,6 +303,7 @@ function make_experiment (id_number,return_what) {
                     type: 'image-keyboard-response',
                     stimulus: jsPsych.timelineVariable('trn_stim'),
                     stimulus_height: stim_height.medium,
+                    stimulus_duration: 200,
                     choices: resp_keys,
                     trial_duration: trial_time,
                     response_ends_trial: false,
@@ -313,6 +315,7 @@ function make_experiment (id_number,return_what) {
                     type: 'image-keyboard-response',
                     stimulus: jsPsych.timelineVariable('stim_path'),
                     stimulus_height: jsPsych.timelineVariable('stim_size'),
+                    stimulus_duration: 200,
                     choices: resp_keys,
                     trial_duration: trial_time,
                     response_ends_trial: false,
@@ -344,6 +347,7 @@ function make_experiment (id_number,return_what) {
                     type: 'image-keyboard-response',
                     stimulus: 'stimuli/line.svg',
                     stimulus_height: jsPsych.timelineVariable('stim_size'),
+                    stimulus_duration: 200,
                     choices: resp_keys,
                     trial_duration: trial_time,
                     response_ends_trial: false,
@@ -355,6 +359,7 @@ function make_experiment (id_number,return_what) {
                     type: 'image-keyboard-response',
                     stimulus: jsPsych.timelineVariable('trn_stim'),
                     stimulus_height: stim_height.medium,
+                    stimulus_duration: 200,
                     choices: resp_keys,
                     trial_duration: trial_time,
                     response_ends_trial: false,
@@ -366,6 +371,7 @@ function make_experiment (id_number,return_what) {
                     type: 'image-keyboard-response',
                     stimulus: jsPsych.timelineVariable('stim_path'),
                     stimulus_height: jsPsych.timelineVariable('stim_size'),
+                    stimulus_duration: 200,
                     choices: resp_keys,
                     trial_duration: trial_time,
                     response_ends_trial: false,
