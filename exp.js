@@ -14,6 +14,7 @@ function make_experiment (id_number,return_what) {
         var feedback_time = 800; // ms
         var fixation_time = 300; // ms
         var trial_time = 1500; // ms
+	var stim_time = 250; //ms
 
         var unique_id = jsPsych.randomization.randomID(15); // generate a unique string for participant ID
         jsPsych.data.addProperties({ // push that to the data object
@@ -203,14 +204,16 @@ function make_experiment (id_number,return_what) {
             type: 'html-keyboard-response',
             stimulus: '<p>In this version of the task, you must report the <em>height</em> of the image by pressing a button.<br>It will be either</p><br>'+
                 '<p>short: '+JSON.stringify(resp_keys[0])+', medium: '+JSON.stringify(resp_keys[1])+', tall: '+JSON.stringify(resp_keys[2])+'</p><br>'+
-                '<p>Please keep your eyes on the centre of the screen throughout.</p><br>'+
+                '<p>Please keep your eyes on the centre of the screen throughout,</p><br>'+
+                '<p>and answer as fast as possible.</p><br>'+
                 '<br><p>Press any key to continue.</p>',
         }
         var size_instruction_reminder = {
             type: 'html-keyboard-response',
             stimulus: '<p>Remember, you must report the <em>height</em> of the image which will be either</p><br>'+
                 '<p>short: '+JSON.stringify(resp_keys[0])+', medium: '+JSON.stringify(resp_keys[1])+', tall: '+JSON.stringify(resp_keys[2])+'</p><br>'+
-                '<p>Please keep your eyes on the centre of the screen throughout.</p><br>'+
+                '<p>Please keep your eyes on the centre of the screen throughout,</p><br>'+
+                '<p>and answer as fast as possible.</p><br>'+
                 '<br><p>Press any key to continue.</p>',
         }
 
@@ -219,14 +222,16 @@ function make_experiment (id_number,return_what) {
             type: 'html-keyboard-response',
             stimulus: '<p>In this version of the task, you must report the <em>colour</em> of the image by pressing a button.<br>It will be either</p><br>'+
                 '<p>red: '+JSON.stringify(resp_keys[0])+', blue: '+JSON.stringify(resp_keys[1])+', green: '+JSON.stringify(resp_keys[2])+'</p><br>'+
-                '<p>Please keep your eyes on the centre of the screen throughout.</p><br>'+
+                '<p>Please keep your eyes on the centre of the screen throughout,</p><br>'+
+                '<p>and answer as fast as possible.</p><br>'+
                 '<br><p>Press any key to continue.</p>',
         }
         var colour_instruction_reminder = {
             type: 'html-keyboard-response',
             stimulus: '<p>Remember, you must report the <em>colour</em> of the image which will be either</p><br>'+
                 '<p>red: '+JSON.stringify(resp_keys[0])+', blue: '+JSON.stringify(resp_keys[1])+', green: '+JSON.stringify(resp_keys[2])+'</p><br>'+
-                '<p>Please keep your eyes on the centre of the screen throughout.</p><br>'+
+                '<p>Please keep your eyes on the centre of the screen throughout,</p><br>'+
+                '<p>and answer as fast as possible.</p><br>'+
                 '<br><p>Press any key to continue.</p>',
         }
 
@@ -291,7 +296,7 @@ function make_experiment (id_number,return_what) {
                     type: 'image-keyboard-response',
                     stimulus: 'stimuli/line.svg',
                     stimulus_height: jsPsych.timelineVariable('stim_size'),
-                    stimulus_duration: 200,
+                    stimulus_duration: stim_time,
                     choices: resp_keys,
                     trial_duration: trial_time,
                     response_ends_trial: false,
@@ -303,7 +308,7 @@ function make_experiment (id_number,return_what) {
                     type: 'image-keyboard-response',
                     stimulus: jsPsych.timelineVariable('trn_stim'),
                     stimulus_height: stim_height.medium,
-                    stimulus_duration: 200,
+                    stimulus_duration: stim_time,
                     choices: resp_keys,
                     trial_duration: trial_time,
                     response_ends_trial: false,
@@ -315,7 +320,7 @@ function make_experiment (id_number,return_what) {
                     type: 'image-keyboard-response',
                     stimulus: jsPsych.timelineVariable('stim_path'),
                     stimulus_height: jsPsych.timelineVariable('stim_size'),
-                    stimulus_duration: 200,
+                    stimulus_duration: stim_time,
                     choices: resp_keys,
                     trial_duration: trial_time,
                     response_ends_trial: false,
@@ -347,7 +352,7 @@ function make_experiment (id_number,return_what) {
                     type: 'image-keyboard-response',
                     stimulus: 'stimuli/line.svg',
                     stimulus_height: jsPsych.timelineVariable('stim_size'),
-                    stimulus_duration: 200,
+                    stimulus_duration: stim_time,
                     choices: resp_keys,
                     trial_duration: trial_time,
                     response_ends_trial: false,
@@ -359,7 +364,7 @@ function make_experiment (id_number,return_what) {
                     type: 'image-keyboard-response',
                     stimulus: jsPsych.timelineVariable('trn_stim'),
                     stimulus_height: stim_height.medium,
-                    stimulus_duration: 200,
+                    stimulus_duration: stim_time,
                     choices: resp_keys,
                     trial_duration: trial_time,
                     response_ends_trial: false,
@@ -371,7 +376,7 @@ function make_experiment (id_number,return_what) {
                     type: 'image-keyboard-response',
                     stimulus: jsPsych.timelineVariable('stim_path'),
                     stimulus_height: jsPsych.timelineVariable('stim_size'),
-                    stimulus_duration: 200,
+                    stimulus_duration: stim_time,
                     choices: resp_keys,
                     trial_duration: trial_time,
                     response_ends_trial: false,
