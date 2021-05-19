@@ -14,7 +14,7 @@ function make_experiment (id_number,return_what) {
         var feedback_time = 800; // ms
         var fixation_time = 300; // ms
         var trial_time = 1500; // ms
-	var stim_time = 250; //ms
+	var stim_time = 470; //ms
 
         var unique_id = jsPsych.randomization.randomID(15); // generate a unique string for participant ID
         jsPsych.data.addProperties({ // push that to the data object
